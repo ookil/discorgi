@@ -4,7 +4,7 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils');
-const { CHANNEL_ADDED } = require('../constants');
+const { CHANNEL_ADDED, MESSAGE_ADDED } = require('../constants');
 
 class ServerAPI extends DataSource {
   constructor({ prisma }) {
@@ -32,6 +32,7 @@ class ServerAPI extends DataSource {
     const payload = {
       user: {
         id: newUser.id,
+        name: newUser.name,
       },
     };
 
@@ -52,6 +53,7 @@ class ServerAPI extends DataSource {
     const payload = {
       user: {
         id: user.id,
+        name: user.name,
       },
     };
 
@@ -243,6 +245,37 @@ class ServerAPI extends DataSource {
     return await this.prisma.channel.delete({
       where: { id: parseInt(channelId) },
     });
+  }
+
+  async createMessage({ data: { msg, channelId, serverId } }) {
+    const user = auth(this.context);
+
+    const userOnServer = await this.prisma.usersOnServer.findMany({
+      where: {
+        AND: [
+          {
+            userId: parseInt(user.id),
+          },
+          {
+            serverId: parseInt(serverId),
+          },
+        ],
+      },
+    });
+
+    if (!userOnServer) throw new ForbiddenError('No access');
+
+    const newMessage = await this.prisma.message.create({
+      data: {
+        channel: { connect: { id: parseInt(channelId) } },
+        username: user.name,
+        msg,
+      },
+    });
+
+    this.context.pubsub.publish(MESSAGE_ADDED, { messageAdded: newMessage });
+
+    return newMessage;
   }
 
   async getUserServers() {

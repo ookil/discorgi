@@ -1,6 +1,6 @@
 const { withFilter } = require('apollo-server');
 const { GraphQLDate } = require('graphql-iso-date');
-const { CHANNEL_ADDED } = require('./constants');
+const { CHANNEL_ADDED, MESSAGE_ADDED } = require('./constants');
 
 module.exports = {
   Query: {
@@ -15,7 +15,17 @@ module.exports = {
         (payload, variables) => {
           return payload.channelAdded.serverId === parseInt(variables.serverId);
         }
-      )
+      ),
+    },
+    messageAdded: {
+      subscribe: withFilter(
+        (_, __, { pubsub }) => pubsub.asyncIterator(MESSAGE_ADDED),
+        (payload, variables) => {
+          return (
+            payload.messageAdded.channelId === parseInt(variables.channelId)
+          );
+        }
+      ),
     },
   },
 
@@ -23,9 +33,8 @@ module.exports = {
     signupUser: (_, { data }, { dataSources }) =>
       dataSources.serverAPI.createUser({ data }),
 
-    loginUser: (_, { data }, { dataSources }) => {
-      dataSources.serverAPI.loginUser({ data });
-    },
+    loginUser: (_, { data }, { dataSources }) =>
+      dataSources.serverAPI.loginUser({ data }),
 
     createServer: (_, { serverName }, { dataSources }) =>
       dataSources.serverAPI.createServer({ serverName }),
@@ -44,6 +53,9 @@ module.exports = {
 
     deleteChannel: (_, { data }, { dataSources }) =>
       dataSources.serverAPI.deleteChannel({ data }),
+
+    createMessage: (_, { data }, { dataSources }) =>
+      dataSources.serverAPI.createMessage({ data }),
   },
 
   Server: {

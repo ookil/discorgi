@@ -16,9 +16,9 @@ model Channel {
 }
 
 model Server {
-    id       Int           @id @default(autoincrement())
+    id       Int             @id @default(autoincrement())
     name     String
-    admin    User          @relation(fields: [adminId], references: [id])
+    admin    User            @relation(fields: [adminId], references: [id])
     adminId  Int
     channels Channel[]
     users    UsersOnServer[]
@@ -34,8 +34,8 @@ model UsersOnServer {
 }
 
 model User {
-    id             Int           @id @default(autoincrement())
-    name           String        @unique
+    id             Int             @id @default(autoincrement())
+    name           String          @unique
     password       String
     servers        UsersOnServer[]
     adminOfServers Server[]
@@ -47,5 +47,5 @@ model Message {
     channelId Int
     username  String
     msg       String
-    date      DateTime
+    date      DateTime @default(now())
 }
