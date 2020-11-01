@@ -1,4 +1,6 @@
+const { withFilter } = require('apollo-server');
 const { GraphQLDate } = require('graphql-iso-date');
+const { CHANNEL_ADDED } = require('./constants');
 
 module.exports = {
   Query: {
@@ -6,12 +8,24 @@ module.exports = {
       dataSources.serverAPI.getUserServers(),
   },
 
+  Subscription: {
+    channelAdded: {
+      subscribe: withFilter(
+        (_, __, context) => context.pubsub.asyncIterator(CHANNEL_ADDED),
+        (payload, variables) => {
+          return payload.channelAdded.serverId === parseInt(variables.serverId);
+        }
+      )
+    },
+  },
+
   Mutation: {
     signupUser: (_, { data }, { dataSources }) =>
       dataSources.serverAPI.createUser({ data }),
 
-    loginUser: (_, { data }, { dataSources }) =>
-      dataSources.serverAPI.loginUser({ data }),
+    loginUser: (_, { data }, { dataSources }) => {
+      dataSources.serverAPI.loginUser({ data });
+    },
 
     createServer: (_, { serverName }, { dataSources }) =>
       dataSources.serverAPI.createServer({ serverName }),

@@ -4,6 +4,7 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils');
+const { CHANNEL_ADDED } = require('../constants');
 
 class ServerAPI extends DataSource {
   constructor({ prisma }) {
@@ -204,12 +205,16 @@ class ServerAPI extends DataSource {
     if (!isAdmin.length)
       throw new ForbiddenError('You cannot create new channels');
 
-    return await this.prisma.channel.create({
+    const newChannel = await this.prisma.channel.create({
       data: {
         name,
         server: { connect: { id: parseInt(serverId) } },
       },
     });
+
+    this.context.pubsub.publish(CHANNEL_ADDED, { channelAdded: newChannel });
+
+    return newChannel;
   }
 
   async deleteChannel({ data: { channelId, serverId } }) {

@@ -5,6 +5,10 @@ const typeDefs = gql`
     userServers: [Server]
   }
 
+  type Subscription {
+    channelAdded(serverId: ID!): Channel
+  }
+
   type Mutation {
     signupUser(data: UserCreateInput!): AuthPayload!
     loginUser(data: UserCreateInput!): AuthPayload!

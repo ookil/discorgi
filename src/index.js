@@ -1,18 +1,19 @@
 require('dotenv').config();
 
-const { ApolloServer,  } = require('apollo-server');
+const { ApolloServer, PubSub } = require('apollo-server');
 const { PrismaClient } = require('@prisma/client');
 
 const ServerAPI = require('./datasources/server');
 
 const prisma = new PrismaClient();
+const pubsub = new PubSub();
 
 const dataSources = () => ({
   serverAPI: new ServerAPI({ prisma }),
 });
 
-const context = ({ req }) => {
-  return {req};
+const context = (req) => {
+  return { ...req, pubsub };
 };
 
 const typeDefs = require('./schema');
