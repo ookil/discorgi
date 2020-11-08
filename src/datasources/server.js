@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils');
 const { CHANNEL_ADDED, MESSAGE_ADDED } = require('../constants');
+const { nanoid } = require('nanoid');
 
 class ServerAPI extends DataSource {
   constructor({ prisma }) {
@@ -67,6 +68,7 @@ class ServerAPI extends DataSource {
 
     const newServer = await this.prisma.server.create({
       data: {
+        id: nanoid(),
         name: serverName,
         admin: {
           connect: {
@@ -78,7 +80,7 @@ class ServerAPI extends DataSource {
 
     await this.prisma.usersOnServer.create({
       data: {
-        server: { connect: { id: parseInt(newServer.id) } },
+        server: { connect: { id: newServer.id} },
         user: { connect: { id: parseInt(user.id) } },
       },
     });
@@ -90,7 +92,7 @@ class ServerAPI extends DataSource {
     const user = auth(this.context);
 
     const channels = await this.prisma.channel.findMany({
-      where: { serverId: parseInt(serverId) },
+      where: { serverId},
     });
 
     const channelsIds = channels.map((item) => item.id);
@@ -115,7 +117,7 @@ class ServerAPI extends DataSource {
       where: {
         AND: [
           {
-            serverId: parseInt(serverId),
+            serverId,
           },
           {
             userId: user.id,
@@ -125,16 +127,16 @@ class ServerAPI extends DataSource {
     });
 
     return await this.prisma.server.delete({
-      where: { id: parseInt(serverId) },
+      where: { id: serverId },
     });
   }
 
-  async addServer({ serverId }) {
+  async joinServer({ serverId }) {
     const user = auth(this.context);
 
     const server = await this.prisma.server.findOne({
       where: {
-        id: parseInt(serverId),
+        id: serverId,
       },
     });
 
@@ -144,7 +146,7 @@ class ServerAPI extends DataSource {
       where: {
         AND: [
           {
-            serverId: parseInt(serverId),
+            serverId,
           },
           {
             userId: user.id,
@@ -157,13 +159,13 @@ class ServerAPI extends DataSource {
 
     await this.prisma.usersOnServer.create({
       data: {
-        server: { connect: { id: parseInt(serverId) } },
+        server: { connect: { id: serverId } },
         user: { connect: { id: parseInt(user.id) } },
       },
     });
 
     return await this.prisma.server.findOne({
-      where: { id: parseInt(serverId) },
+      where: { id: serverId },
     });
   }
 
@@ -174,7 +176,7 @@ class ServerAPI extends DataSource {
       where: {
         AND: [
           {
-            serverId: parseInt(serverId),
+            serverId,
           },
           {
             userId: user.id,
@@ -184,7 +186,7 @@ class ServerAPI extends DataSource {
     });
 
     return await this.prisma.server.findOne({
-      where: { id: parseInt(serverId) },
+      where: { id: serverId},
     });
   }
 
@@ -195,7 +197,7 @@ class ServerAPI extends DataSource {
       where: {
         AND: [
           {
-            id: parseInt(serverId),
+            id: serverId,
           },
           {
             adminId: user.id,
@@ -210,7 +212,7 @@ class ServerAPI extends DataSource {
     const newChannel = await this.prisma.channel.create({
       data: {
         name,
-        server: { connect: { id: parseInt(serverId) } },
+        server: { connect: { id: serverId } },
       },
     });
 
@@ -226,7 +228,7 @@ class ServerAPI extends DataSource {
       where: {
         AND: [
           {
-            id: parseInt(serverId),
+            id: serverId,
           },
           {
             adminId: user.id,
@@ -239,7 +241,7 @@ class ServerAPI extends DataSource {
       throw new ForbiddenError('You cannot create new channels');
 
     await this.prisma.message.deleteMany({
-      where: { channelId: parseInt(serverId) },
+      where: { channelId: serverId },
     });
 
     return await this.prisma.channel.delete({
@@ -257,7 +259,7 @@ class ServerAPI extends DataSource {
             userId: parseInt(user.id),
           },
           {
-            serverId: parseInt(serverId),
+            serverId,
           },
         ],
       },

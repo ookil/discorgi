@@ -11,12 +11,12 @@ model Channel {
     id       Int       @id @default(autoincrement())
     name     String
     server   Server    @relation(fields: [serverId], references: [id])
-    serverId Int
+    serverId String
     Message  Message[]
 }
 
 model Server {
-    id       Int             @id @default(autoincrement())
+    id       String             @id 
     name     String
     admin    User            @relation(fields: [adminId], references: [id])
     adminId  Int
@@ -26,7 +26,7 @@ model Server {
 
 model UsersOnServer {
     server   Server @relation(fields: [serverId], references: [id])
-    serverId Int
+    serverId String
     user     User   @relation(fields: [userId], references: [id])
     userId   Int
 

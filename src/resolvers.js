@@ -42,8 +42,8 @@ module.exports = {
     deleteServer: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.deleteServer({ serverId }),
 
-    addServer: (_, { serverId }, { dataSources }) =>
-      dataSources.serverAPI.addServer({ serverId }),
+    joinServer: (_, { serverId }, { dataSources }) =>
+      dataSources.serverAPI.joinServer({ serverId }),
 
     leaveServer: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.leaveServer({ serverId }),

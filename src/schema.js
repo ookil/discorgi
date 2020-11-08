@@ -17,7 +17,7 @@ const typeDefs = gql`
 
     createServer(serverName: String!): Server
     deleteServer(serverId: ID!): Server
-    addServer(serverId: ID!): Server
+    joinServer(serverId: ID!): Server
     leaveServer(serverId: ID!): Server
 
     createChannel(data: CreateChannelInput!): Channel
