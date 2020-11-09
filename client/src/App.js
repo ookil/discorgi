@@ -4,8 +4,10 @@ import ServerList from './components/servers/ServerList';
 function App() {
   return (
     <div className='App'>
-      <h1>Discorgi</h1>
-      <ServerList />
+      <h4 className="title">DISCORGI</h4>
+      <div className='container'>
+        <ServerList />
+      </div>
     </div>
   );
 }
