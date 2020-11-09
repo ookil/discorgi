@@ -5,7 +5,6 @@ import corgiCreate from '../../img/create-server.jpg';
 const customStyles = {
   content: {
     padding: '20px',
-    width: '400px',
     top: '50%',
     left: '50%',
     right: 'auto',

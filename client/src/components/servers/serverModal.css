@@ -8,6 +8,19 @@
   top: 5px;
 }
 
+.ReactModal__Content {
+  height: 200px;
+  width: 390px;
+  scrollbar-width: none;
+  transition: height 150ms ease-in, width 200ms ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+  height: 330px;
+  width: 400px;
+  overflow: hidden;
+}
+
 .create-button {
   margin-top: 20px;
   display: flex;
@@ -24,7 +37,7 @@
 .join-button {
   text-align: center;
   margin-top: 0.8em;
-  padding:  10px 5px;
+  padding: 10px 5px;
   width: 100%;
   background-color: #37333c;
   color: #d8d8d8;
@@ -34,7 +47,7 @@
 }
 
 .join-button:hover {
-    background-color: #211E24;
+  background-color: #211e24;
 }
 
 /* <a href='https://www.freepik.com/vectors/food'>Food vector created by catalyststuff - www.freepik.com</a> */

@@ -24,9 +24,6 @@ const ServerList = () => {
   console.log(data);
 
   const handleButton = () => {
-    setActiveId('button');
-
-    //logic for adding buton
     setIsOpen(true);
   };
 
@@ -41,7 +38,9 @@ const ServerList = () => {
       {isHoveredId === id && (
         <div className='modal--server-name'>
           <div className='modal--arrow-left'></div>
-          <div className='modal--body'><span>{name}</span></div>
+          <div className='modal--body'>
+            <span>{name}</span>
+          </div>
         </div>
       )}
       <img src={corgi} alt={name} />
@@ -52,10 +51,7 @@ const ServerList = () => {
     <div className='server-list'>
       {content}
       <button
-        id='button'
-        className={`server-list--button ${
-          activeId === 'button' ? 'active' : ''
-        }`}
+        className={`server-list--button ${modalIsOpen ? 'active' : ''}`}
         onClick={handleButton}
       >
         &#65291;
