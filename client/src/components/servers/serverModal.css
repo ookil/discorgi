@@ -1,0 +1,24 @@
+.close-button {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #37333c;
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.create-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-button img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+/* <a href='https://www.freepik.com/vectors/food'>Food vector created by catalyststuff - www.freepik.com</a> */

@@ -1,6 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import { useState } from 'react';
-import corgi from './img/corgi-1.jpg';
+import corgi from '../../img/corgi-1.jpg';
+import ServerModal from './ServerModal';
 
 const GET_USER_SERVERS = gql`
   query getUserServers {
@@ -13,6 +14,7 @@ const GET_USER_SERVERS = gql`
 
 const ServerList = () => {
   const [activeId, setActiveId] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const { loading, error, data } = useQuery(GET_USER_SERVERS);
 
@@ -24,6 +26,7 @@ const ServerList = () => {
     setActiveId('button');
 
     //logic for adding buton
+    setIsOpen(true);
   };
 
   const content = data.userServers.map(({ id, name }) => (
@@ -49,6 +52,7 @@ const ServerList = () => {
       >
         &#65291;
       </button>
+      <ServerModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
     </div>
   );
 };
