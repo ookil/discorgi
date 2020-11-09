@@ -15,6 +15,7 @@ const GET_USER_SERVERS = gql`
 const ServerList = () => {
   const [activeId, setActiveId] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [isHoveredId, setHovered] = useState(null);
 
   const { loading, error, data } = useQuery(GET_USER_SERVERS);
 
@@ -32,10 +33,17 @@ const ServerList = () => {
   const content = data.userServers.map(({ id, name }) => (
     <div
       key={id}
-      title={name}
       className={`server-list--box ${activeId === id ? 'active' : ''}`}
       onClick={() => setActiveId(id)}
+      onMouseEnter={() => setHovered(id)}
+      onMouseLeave={() => setHovered(null)}
     >
+      {isHoveredId === id && (
+        <div className='modal--server-name'>
+          <div className='modal--arrow-left'></div>
+          <div className='modal--body'><span>{name}</span></div>
+        </div>
+      )}
       <img src={corgi} alt={name} />
     </div>
   ));
@@ -52,7 +60,7 @@ const ServerList = () => {
       >
         &#65291;
       </button>
-      <ServerModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
+      <ServerModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

@@ -26,6 +26,7 @@
   height: 50px;
   margin: 8px 8px 8px 12px;
   position: relative;
+  cursor: pointer;
 }
 
 .server-list--box::before{
@@ -72,4 +73,48 @@
   border: none;
   color: skyblue;
   font-size: 2rem;
+  cursor: pointer;
+}
+
+.server-list--button:hover {
+  color: #6f6678;
+  background: skyblue;
+}
+
+.modal--server-name {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.modal--arrow-left {
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent; 
+  border-right:8px solid   #211E24; 
+}
+
+.modal--body {
+  background:  #211E24;
+  padding: 6px;
+  white-space:nowrap;
+  max-width: 150px; 
+  width: 100%;
+  border-radius: 3px;
+  color: #d8d8d8;
+}
+
+
+/* UTILITIES */
+
+.text-center{
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 3.25rem;
 }

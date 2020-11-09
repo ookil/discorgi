@@ -34,7 +34,7 @@ const ServerModal = ({ modalIsOpen, setIsOpen }) => {
       <p className='close-button' onClick={handleClose}>
         &#8569;
       </p>
-      <div style={{ textAlign: 'center' }}>
+      <div className='text-center'>
         <h2 style={{ marginBottom: '.5em' }}>Create a server</h2>
         <p>
           Your server is where you and your friends hang out. Create one and
@@ -42,12 +42,16 @@ const ServerModal = ({ modalIsOpen, setIsOpen }) => {
         </p>
       </div>
       <div className='create-button'>
-        <div>
-            <img src={corgiCreate} alt='Create Server' />
-            <h4>Create My Own</h4>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={corgiCreate} alt='Create Server' />
+          <h4 style={{ marginLeft: '10px' }}>Create My Own</h4>
         </div>
         <p>&#10140;</p>
       </div>
+      <h3 className='text-center mt-3'>Have an invite already?</h3>
+      <button type='button' className='join-button'>
+        Join a server
+      </button>
     </Modal>
   );
 };
