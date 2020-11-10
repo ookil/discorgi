@@ -26,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
 .create-button img {
@@ -46,8 +47,65 @@
   cursor: pointer;
 }
 
-.join-button:hover {
+.join-button:hover,
+.submit-button:hover {
   background-color: #211e24;
 }
 
+.back-button {
+  border: none;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+.submit-button {
+  margin-left: auto;
+  border: none;
+  cursor: pointer;
+  padding: 10px 5px;
+  background-color: #6f6678;
+  border-radius: 5px;
+  color: #d8d8d8;
+}
+
 /* <a href='https://www.freepik.com/vectors/food'>Food vector created by catalyststuff - www.freepik.com</a> */
+
+.reverse-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.reverse-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.forward-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.forward-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.forward-enter-active,
+.forward-exit-active,
+.reverse-enter-active,
+.reverse-exit-active {
+  transition: opacity 250ms, transform 250ms;
+}
+
+.forward-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.forward-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.reverse-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.reverse-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+}

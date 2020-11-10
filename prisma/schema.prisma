@@ -16,12 +16,13 @@ model Channel {
 }
 
 model Server {
-    id       String             @id 
+    id       String          @unique
     name     String
     admin    User            @relation(fields: [adminId], references: [id])
     adminId  Int
     channels Channel[]
     users    UsersOnServer[]
+    position Int             @id @default(autoincrement())
 }
 
 model UsersOnServer {

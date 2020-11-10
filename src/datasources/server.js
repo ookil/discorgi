@@ -80,7 +80,7 @@ class ServerAPI extends DataSource {
 
     await this.prisma.usersOnServer.create({
       data: {
-        server: { connect: { id: newServer.id} },
+        server: { connect: { id: newServer.id } },
         user: { connect: { id: parseInt(user.id) } },
       },
     });
@@ -92,7 +92,7 @@ class ServerAPI extends DataSource {
     const user = auth(this.context);
 
     const channels = await this.prisma.channel.findMany({
-      where: { serverId},
+      where: { serverId },
     });
 
     const channelsIds = channels.map((item) => item.id);
@@ -186,7 +186,7 @@ class ServerAPI extends DataSource {
     });
 
     return await this.prisma.server.findOne({
-      where: { id: serverId},
+      where: { id: serverId },
     });
   }
 
@@ -295,6 +295,7 @@ class ServerAPI extends DataSource {
           in: serverIds,
         },
       },
+      orderBy: { position: 'asc' },
     });
 
     return servers;

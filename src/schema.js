@@ -61,6 +61,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     owner: User!
+    position: Int
     channels: [Channel]
     users: [User]
   }
