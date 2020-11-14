@@ -4,6 +4,7 @@ import './serverModal.css';
 import corgiCreate from '../../img/create-server.jpg';
 import { useState } from 'react';
 import AddServerForm from './AddServerForm';
+import JoinServerForm from './JoinServerForm';
 
 const customStyles = {
   content: {
@@ -37,7 +38,7 @@ const ServerModal = ({ modalIsOpen, setIsOpen }) => {
       onRequestClose={handleClose}
     >
       <p className='close-button' onClick={handleClose}>
-        &#8569;
+        &#10006;
       </p>
       <SwitchTransition mode='out-in'>
         <CSSTransition
@@ -49,7 +50,14 @@ const ServerModal = ({ modalIsOpen, setIsOpen }) => {
         >
           <>
             {state === 'main' ? (
-              <div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  scrollbarWidth: 'none',
+                }}
+              >
                 <div className='text-center'>
                   <h2 style={{ marginBottom: '.5em' }}>Create a server</h2>
                   <p>
@@ -77,14 +85,9 @@ const ServerModal = ({ modalIsOpen, setIsOpen }) => {
                 </button>
               </div>
             ) : state === 'create' ? (
-              <AddServerForm setState={setState}  setIsOpen={setIsOpen}/>
+              <AddServerForm setState={setState} setIsOpen={setIsOpen} />
             ) : (
-              <div>
-                <p>
-                  hello
-                </p>
-                <button onClick={() => setState('main')}>Back</button>
-              </div>
+              <JoinServerForm setState={setState} setIsOpen={setIsOpen} />
             )}
           </>
         </CSSTransition>

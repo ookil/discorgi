@@ -3,7 +3,7 @@ import { useState } from 'react';
 import corgi from '../../img/corgi-1.jpg';
 import ServerModal from './ServerModal';
 
-const GET_USER_SERVERS = gql`
+export const GET_USER_SERVERS = gql`
   query getUserServers {
     userServers {
       id
@@ -34,27 +34,36 @@ const ServerList = () => {
       onMouseEnter={() => setHovered(id)}
       onMouseLeave={() => setHovered(null)}
     >
-      {isHoveredId === id && (
-        <div className='modal--server-name'>
+      {
+        <div
+          className={`modal--server-name ${
+            isHoveredId === id ? 'hovered' : ''
+          }  `}
+        >
           <div className='modal--arrow-left'></div>
           <div className='modal--body'>
             <span>{name}</span>
           </div>
         </div>
-      )}
+      }
       <img src={corgi} alt={name} />
     </div>
   ));
 
   return (
     <div className='server-list'>
-      {content}
-      <button
-        className={`server-list--button ${modalIsOpen ? 'active' : ''}`}
-        onClick={handleButton}
+      <div
+        className='server-list--wrapper'
+       
       >
-        &#65291;
-      </button>
+        {content}
+        <div
+          className={`server-list--button ${modalIsOpen ? 'active' : ''}`}
+          onClick={handleButton}
+        >
+          &#65291;
+        </div>
+      </div>
       <ServerModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </div>
   );

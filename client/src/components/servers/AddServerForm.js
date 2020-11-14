@@ -1,9 +1,11 @@
 import { gql, useMutation } from '@apollo/client';
+import { GET_USER_SERVERS } from './ServerList';
 
 const CREATE_SERVER = gql`
   mutation CreateServer($serverName: String!) {
     createServer(serverName: $serverName) {
       id
+      name
     }
   }
 `;
@@ -12,14 +14,26 @@ const AddServerForm = ({ setState, setIsOpen }) => {
   let input;
   const [createServer] = useMutation(CREATE_SERVER, {
     update(cache, { data: { createServer } }) {
-      const cacheId = cache.identify(createServer);
+      const newServerFromResponse = createServer;
+      const existingServers = cache.readQuery({
+        query: GET_USER_SERVERS,
+      });
+      
+      cache.writeQuery({
+        query: GET_USER_SERVERS,
+        data: {
+          userServers: existingServers.userServers.concat(newServerFromResponse),
+        },
+      });
+
+      /*  const cacheId = cache.identify(createServer);
       cache.modify({
         fields: {
           userServers(existingServers, { toReference }) {
             return [...existingServers, toReference(cacheId)];
           },
         },
-      });
+      }); */
     },
   });
 
@@ -42,6 +56,7 @@ const AddServerForm = ({ setState, setIsOpen }) => {
           <label htmlFor='servername'>SERVER NAME</label>
           <br />
           <input
+            required
             type='text'
             name='servername'
             ref={(node) => {
@@ -50,9 +65,13 @@ const AddServerForm = ({ setState, setIsOpen }) => {
           />
         </form>
       </div>
-      <div style={{ marginTop: 'auto' }}>
-        <button className='back-button'  onClick={() => setState('main')}>Back</button>
-        <button className='submit-button' form='create-server'>Create</button>
+      <div style={{ marginTop: 'auto', display: 'flex' }}>
+        <button className='back-button' onClick={() => setState('main')}>
+          Back
+        </button>
+        <button className='submit-button' form='create-server'>
+          Create
+        </button>
       </div>
     </div>
   );

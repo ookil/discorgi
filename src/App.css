@@ -16,18 +16,10 @@
 
 .server-list {
   background: #423d48;
-  width: 72px;
+  width: 70px;
   height: 100vh;
-  scrollbar-width: none;
-  padding-bottom: 20px;
-  position: relative;
-  /* overflow-x: visible;
-  overflow-y: scroll; */
+  text-align: center;
 }
-
-/* .server-list::-webkit-scrollbar {
-display: none;
-} */
 
 .server-list--box {
   width: 50px;
@@ -81,9 +73,7 @@ display: none;
   border: none;
   color: skyblue;
   font-size: 2rem;
-  margin: 0px 8px 8px 12px;
   cursor: pointer;
-  text-align: center;
 }
 
 .server-list--button:hover {
@@ -91,23 +81,7 @@ display: none;
   background: skyblue;
 }
 
-.server-list--wrapper {
-  width: 250px; 
-  height: 100vh; 
-  overflow-y: scroll; 
-  overflow-x: hidden; 
-  scrollbar-width: none;
-}
-
-.server-list--wrapper::-webkit-scrollbar{
-  display: none;
-}
-
-.modal--server-name{
-  display: none;
-}
-
-.modal--server-name.hovered {
+.modal--server-name {
   position: absolute;
   left: 60px;
   top: 50%;
@@ -132,8 +106,6 @@ display: none;
   width: 100%;
   border-radius: 3px;
   color: #d8d8d8;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 
