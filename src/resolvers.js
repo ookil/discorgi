@@ -6,6 +6,8 @@ module.exports = {
   Query: {
     userServers: (_, __, { dataSources }) =>
       dataSources.serverAPI.getUserServers(),
+    channelsAndUsers: (_, { serverId }, { dataSources }) =>
+      dataSources.serverAPI.getServerInfo({serverId}),
   },
 
   Subscription: {
@@ -36,8 +38,8 @@ module.exports = {
     loginUser: (_, { data }, { dataSources }) =>
       dataSources.serverAPI.loginUser({ data }),
 
-    createServer: (_, { serverName }, { dataSources }) =>
-      dataSources.serverAPI.createServer({ serverName }),
+    createServer: (_, { data }, { dataSources }) =>
+      dataSources.serverAPI.createServer({ data }),
 
     deleteServer: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.deleteServer({ serverId }),

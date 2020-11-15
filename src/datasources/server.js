@@ -63,13 +63,14 @@ class ServerAPI extends DataSource {
     return { token };
   }
 
-  async createServer({ serverName }) {
+  async createServer({ data: { serverName, icon } }) {
     const user = auth(this.context);
 
     const newServer = await this.prisma.server.create({
       data: {
         id: nanoid(),
         name: serverName,
+        icon,
         admin: {
           connect: {
             id: parseInt(user.id),
@@ -323,6 +324,13 @@ class ServerAPI extends DataSource {
         },
       },
     });
+  }
+
+  async getServerInfo({ serverId }) {
+    return {
+      channels: this.getServerChannels({ serverId }),
+      users: this.getServerUsers({ serverId }),
+    };
   }
 }
 

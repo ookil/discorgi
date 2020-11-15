@@ -37,10 +37,21 @@
   cursor: pointer;
 }
 
-.create-button img {
+.create-button img, 
+.server-icon {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+}
+
+.server-icon {
+  cursor: pointer;
+  opacity: .7;
+}
+
+.server-icon:hover, 
+.server-icon.active {
+  opacity: 1;
 }
 
 .join-button {

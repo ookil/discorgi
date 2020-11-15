@@ -23,6 +23,7 @@ model Server {
     channels Channel[]
     users    UsersOnServer[]
     position Int             @id @default(autoincrement())
+    icon     String          @default("0")
 }
 
 model UsersOnServer {

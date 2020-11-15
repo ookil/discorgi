@@ -3,6 +3,7 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   type Query {
     userServers: [Server]
+    channelsAndUsers(serverId: ID!): ServerInfo
   }
 
   type Subscription {
@@ -15,7 +16,7 @@ const typeDefs = gql`
     signupUser(data: UserCreateInput!): AuthPayload!
     loginUser(data: UserCreateInput!): AuthPayload!
 
-    createServer(serverName: String!): Server
+    createServer(data: CreateServerInput): Server
     deleteServer(serverId: ID!): Server
     joinServer(serverId: ID!): Server
     leaveServer(serverId: ID!): Server
@@ -24,6 +25,11 @@ const typeDefs = gql`
     deleteChannel(data: DeleteChannelInput!): Channel
 
     createMessage(data: CreateMessageInput!): Message
+  }
+
+  input CreateServerInput {
+    serverName: String!
+    icon: String
   }
 
   input CreateMessageInput {
@@ -47,6 +53,11 @@ const typeDefs = gql`
     serverId: ID!
   }
 
+  type ServerInfo {
+    channels: [Channel]
+    users: [User]
+  }
+
   type AuthPayload {
     token: String!
   }
@@ -64,6 +75,7 @@ const typeDefs = gql`
     position: Int
     channels: [Channel]
     users: [User]
+    icon: String
   }
 
   type User {

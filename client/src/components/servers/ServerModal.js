@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import './serverModal.css';
-import corgiCreate from '../../img/create-server.jpg';
+import corgiCreate from '../../img/corgi-server-2.jpg';
 import { useState } from 'react';
 import AddServerForm from './AddServerForm';
 import JoinServerForm from './JoinServerForm';
@@ -23,6 +23,8 @@ const customStyles = {
 };
 
 const ServerModal = ({ modalIsOpen, setIsOpen }) => {
+  Modal.setAppElement('#root');
+
   const handleClose = () => {
     setIsOpen(false);
     setState('main');
