@@ -1,6 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import ServerContext from '../../context/serverContext';
+import Dropdown from './Dropdown';
 
 const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
@@ -14,12 +15,38 @@ const GET_SERVER_CHANNELS = gql`
 `;
 
 const ChannelsList = () => {
+  const [test, setTest] = useState('')
+
   const [channelId, setChannelId] = useState(null);
+
+  const [isDropdown, setDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const { serverId, serverName } = useContext(ServerContext);
 
   const { loading, error, data } = useQuery(GET_SERVER_CHANNELS, {
     variables: { serverId },
+  });
+
+  const handleHideDropdown = (e) => {
+    if (e.key === 'Escape') {
+      setDropdown(false);
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleHideDropdown, true);
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('keydown', handleHideDropdown, true);
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   });
 
   let content;
@@ -60,13 +87,19 @@ const ChannelsList = () => {
 
   return (
     <div className='channels-list'>
-      <div className='channels-list--title'>
+      <div
+        ref={dropdownRef}
+        className='channels-list--title'
+        onClick={() => setDropdown((state) => !state)}
+      >
         <h4>{serverName}</h4>
         <div>
-        <i className="fas fa-chevron-down"/>
+          <i className='fas fa-chevron-down' />
         </div>
-      </div>
 
+        {isDropdown && <Dropdown serverRole={'ADMIN'} setTest={setTest} />}
+      </div>
+      
       <div className='channels-list--wrapper'>{content}</div>
     </div>
   );

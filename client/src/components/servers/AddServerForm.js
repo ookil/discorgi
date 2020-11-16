@@ -32,7 +32,7 @@ const AddServerForm = ({ setState, setIsOpen }) => {
 
   const [createServer] = useMutation(CREATE_SERVER, {
     update(cache, { data: { createServer } }) {
-      const newServerFromResponse = createServer;
+      const newServerFromResponse = {...createServer, role: 'ADMIN'};
       const existingServers = cache.readQuery({
         query: GET_USER_SERVERS,
       });

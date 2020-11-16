@@ -76,8 +76,10 @@ const typeDefs = gql`
     channels: [Channel]
     users: [User]
     icon: String
+    role: String
   }
 
+  
   type User {
     id: ID!
     name: String!

@@ -299,6 +299,18 @@ class ServerAPI extends DataSource {
       orderBy: { position: 'asc' },
     });
 
+    const serversWithRole = servers.map((server) => {
+      
+      if ((server.adminId === user.id)) {
+        server.role = 'ADMIN';
+      } else {
+        server.role = 'USER';
+      }
+      return server
+    });
+
+    console.log(serversWithRole);
+
     return servers;
   }
 

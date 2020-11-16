@@ -10,6 +10,7 @@ export const GET_USER_SERVERS = gql`
       id
       name
       icon
+      role
     }
   }
 `;

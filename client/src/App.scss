@@ -3,6 +3,7 @@ $scrollbar-track: transparent;
 $background-primary: #36393f;
 $background-secondary: #2f3136;
 $background-tetriary: #202225;
+$background-floating: #18191c;
 $text-normal: #dcddde;
 $text-white: #fff;
 $text-muted: #72767d;
@@ -323,6 +324,7 @@ input {
   background: $background-secondary;
   z-index: 1;
   flex-shrink: 0;
+  position: relative;
 
   &--title {
     height: 48px;
@@ -334,7 +336,7 @@ input {
     font-size: 16px;
     box-shadow: 0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05),
       0 2px 0 rgba(4, 4, 5, 0.05);
-      cursor: pointer;
+    cursor: pointer;
 
     &:hover {
       background: $background-modifier-hover;
@@ -478,8 +480,56 @@ input {
   background: #fca41c;
 }
 
+/* DROPDOWN */
 
+.dropdown-menu--server {
+  position: absolute;
+  left: 10px;
+  top: 58px;
+  background: $background-floating;
+  width: 220px;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
+  padding: 6px 8px;
+}
 
- 
+.dropdown-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  margin: 2px 0;
+  color: $text-normal;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
 
+  i {
+    height: 16px;
+    width: 16px;
+  }
 
+  &.invite {
+    color: #677bc4;
+  }
+
+  &.delete {
+    color: #f04747;
+
+    &:hover {
+      background: #f04747;
+      color: #fff;
+    }
+  }
+
+  &:hover {
+    background: #5c6fb1;
+    color: #fff;
+  }
+}
+
+.separator {
+  margin: 4px;
+  border-bottom: 1px solid hsla(0, 0, 100%, 0.06);
+}
