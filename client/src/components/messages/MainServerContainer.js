@@ -1,5 +1,5 @@
 import UsersList from '../users/UsersList';
-import './serverContainer.scss';
+/* import './serverContainer.scss'; */
 
 const MainServerContainer = () => {
   return (

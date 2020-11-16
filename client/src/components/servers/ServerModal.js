@@ -1,6 +1,5 @@
 import Modal from 'react-modal';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './serverModal.css';
 import corgiCreate from '../../img/corgi-server-2.jpg';
 import { useState } from 'react';
 import AddServerForm from './AddServerForm';
@@ -19,6 +18,7 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: 'rgba(22,20,24,.9)',
+    zIndex: '1'
   },
 };
 

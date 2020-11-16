@@ -1,7 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ServerContext from '../../context/serverContext';
-import './channels.css';
 
 const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
@@ -15,6 +14,8 @@ const GET_SERVER_CHANNELS = gql`
 `;
 
 const ChannelsList = () => {
+  const [channelId, setChannelId] = useState(null);
+
   const { serverId, serverName } = useContext(ServerContext);
 
   const { loading, error, data } = useQuery(GET_SERVER_CHANNELS, {
@@ -27,10 +28,19 @@ const ChannelsList = () => {
     content = <div> Loading...</div>;
   } else if (data) {
     content = data.channelsAndUsers.channels.map(({ id, name }) => (
-      <div key={id} className='channel-box'>
-        <div className="channel-box--main">
-          <div >
-            <svg width='24' height='24' viewBox='0 0 24 24' className='channel-box--icon'>
+      <div
+        key={id}
+        className={`modifier-box ${channelId === id ? 'active' : ''}`}
+        onClick={() => setChannelId(id)}
+      >
+        <div className='modifier-box--main'>
+          <div>
+            <svg
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              className='modifier-box--icon'
+            >
               <path
                 fill='currentColor'
                 fillRule='evenodd'
@@ -39,7 +49,7 @@ const ChannelsList = () => {
               ></path>
             </svg>
           </div>
-  
+
           <div>{name}</div>
         </div>
       </div>
@@ -52,6 +62,9 @@ const ChannelsList = () => {
     <div className='channels-list'>
       <div className='channels-list--title'>
         <h4>{serverName}</h4>
+        <div>
+        <i className="fas fa-chevron-down"/>
+        </div>
       </div>
 
       <div className='channels-list--wrapper'>{content}</div>

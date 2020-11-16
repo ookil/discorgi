@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import ChannelsList from './components/channels/ChannelsList';
 import MainServerContainer from './components/messages/MainServerContainer';
 import ServerList from './components/servers/ServerList';
