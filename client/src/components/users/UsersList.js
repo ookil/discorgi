@@ -5,11 +5,9 @@ import icon from '../../img/corgi-icon.png';
 
 const GET_SERVER_USERS = gql`
   query getServerUsers($serverId: ID!) {
-    channelsAndUsers(serverId: $serverId) {
-      users {
-        id
-        name
-      }
+    serverUsers(serverId: $serverId) {
+      id
+      name
     }
   }
 `;
@@ -24,9 +22,9 @@ const UsersList = () => {
   let content;
 
   if (loading) {
-    content = <div> Loading...</div>;
+    content = <div> </div>;
   } else if (data) {
-    content = data.channelsAndUsers.users.map(({ id, name }) => (
+    content = data.serverUsers.map(({ id, name }) => (
       <div key={id} className='modifier-box'>
         <div className='modifier-box--main'>
           <div

@@ -2,27 +2,29 @@ import { useQuery, gql } from '@apollo/client';
 import { useContext, useEffect, useRef, useState } from 'react';
 import ServerContext from '../../context/serverContext';
 import Dropdown from './Dropdown';
+import UserBox from '../users/UserBox';
 
-const GET_SERVER_CHANNELS = gql`
+import CreateChannelForm from './CreateChannelForm';
+import DeleteServer from '../servers/DeleteServer';
+
+export const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
-    channelsAndUsers(serverId: $serverId) {
-      channels {
-        id
-        name
-      }
+    serverChannels(serverId: $serverId) {
+      id
+      name
     }
   }
 `;
 
 const ChannelsList = () => {
-  const [test, setTest] = useState('')
+  const [test, setTest] = useState('');
 
   const [channelId, setChannelId] = useState(null);
 
   const [isDropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { serverId, serverName } = useContext(ServerContext);
+  const { serverId, serverName, openModal } = useContext(ServerContext);
 
   const { loading, error, data } = useQuery(GET_SERVER_CHANNELS, {
     variables: { serverId },
@@ -54,7 +56,7 @@ const ChannelsList = () => {
   if (loading) {
     content = <div> Loading...</div>;
   } else if (data) {
-    content = data.channelsAndUsers.channels.map(({ id, name }) => (
+    content = data.serverChannels.map(({ id, name }) => (
       <div
         key={id}
         className={`modifier-box ${channelId === id ? 'active' : ''}`}
@@ -94,13 +96,22 @@ const ChannelsList = () => {
       >
         <h4>{serverName}</h4>
         <div>
-          <i className='fas fa-chevron-down' />
+          {isDropdown ? (
+            <i className='fas fa-times'></i>
+          ) : (
+            <i className='fas fa-chevron-down' />
+          )}
         </div>
 
-        {isDropdown && <Dropdown serverRole={'ADMIN'} setTest={setTest} />}
+        {isDropdown && <Dropdown />}
       </div>
-      
+
       <div className='channels-list--wrapper'>{content}</div>
+
+      <UserBox />
+
+      <CreateChannelForm />
+      <DeleteServer />
     </div>
   );
 };

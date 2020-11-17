@@ -2,8 +2,10 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Query {
+    getUser: AuthUser
     userServers: [Server]
-    channelsAndUsers(serverId: ID!): ServerInfo
+    serverChannels(serverId: ID!): [Channel]
+    serverUsers(serverId: ID!): [User]
   }
 
   type Subscription {
@@ -25,6 +27,11 @@ const typeDefs = gql`
     deleteChannel(data: DeleteChannelInput!): Channel
 
     createMessage(data: CreateMessageInput!): Message
+  }
+
+  type AuthUser {
+    id: ID!
+    name: String!
   }
 
   input CreateServerInput {
@@ -53,11 +60,6 @@ const typeDefs = gql`
     serverId: ID!
   }
 
-  type ServerInfo {
-    channels: [Channel]
-    users: [User]
-  }
-
   type AuthPayload {
     token: String!
   }
@@ -79,7 +81,6 @@ const typeDefs = gql`
     role: String
   }
 
-  
   type User {
     id: ID!
     name: String!

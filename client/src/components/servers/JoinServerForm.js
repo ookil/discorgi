@@ -25,7 +25,6 @@ const JoinServerForm = ({ setState, setIsOpen }) => {
   }
   );
 
-  console.log(error);
 
   const handleSubmit = (e) => {
     e.preventDefault();

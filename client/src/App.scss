@@ -2,6 +2,7 @@ $scrollbar-thumb: #202225;
 $scrollbar-track: transparent;
 $background-primary: #36393f;
 $background-secondary: #2f3136;
+$background-secondary-alt: #292b2f;
 $background-tetriary: #202225;
 $background-floating: #18191c;
 $text-normal: #dcddde;
@@ -52,6 +53,14 @@ $background-modifier-active: rgba(79, 84, 92, 0.24);
 
 @mixin server_button_active {
   border-radius: 20%;
+}
+
+@mixin modal-content {
+  color: $text-normal;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .server-list--box {
@@ -137,19 +146,20 @@ $background-modifier-active: rgba(79, 84, 92, 0.24);
   height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-right: 8px solid #211e24;
+  border-right: 8px solid $background-floating;
 }
 
 .modal--body {
-  background: #211e24;
-  padding: 6px;
+  background: $background-floating;
+  padding: 8px;
   white-space: nowrap;
-  max-width: 150px;
+  max-width: 210px;
   width: 100%;
   border-radius: 3px;
-  color: white;
+  color: $text-white;
   overflow: hidden;
   text-overflow: ellipsis;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
 }
 
 /* UTILITIES */
@@ -172,6 +182,14 @@ $background-modifier-active: rgba(79, 84, 92, 0.24);
   position: absolute;
   right: 8px;
   top: 6px;
+
+  &.light {
+    color: $text-muted;
+
+    &:hover {
+      color: $text-normal;
+    }
+  }
 }
 
 .ReactModal__Content {
@@ -316,6 +334,56 @@ input {
   margin-top: 5px;
 }
 
+/* Delete Server Modal */
+.delete-server-content {
+  @include modal-content;
+
+  .warning {
+    background-color: #e19517;
+    border-color: #e19517;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  label {
+    font-size: 12px;
+    color: #8e9297;
+  }
+
+  input {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    color: $text-normal;
+  }
+
+  .button-delete-server {
+    margin-left: 20px;
+    cursor: pointer;
+    color: $text-white;
+    padding: 10px;
+    border: none;
+    background-color: #f04747;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #d84040;
+    }
+  }
+
+  .alert {
+    color: #f04747;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+}
 /* CHANNELS */
 
 .channels-list {
@@ -407,6 +475,75 @@ input {
   align-items: center;
 }
 
+/* Create Channel Modal */
+
+.create-channel-content {
+  @include modal-content;
+  /* color: $text-normal;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; */
+
+  .modal-title {
+    text-align: center;
+    margin-bottom: 0.8em;
+  }
+
+  label {
+    color: $text-normal;
+    font-size: 12px;
+  }
+
+  input {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    padding-left: 35px;
+    color: $text-normal;
+  }
+
+  .button-create-channel {
+    margin-left: 20px;
+    cursor: pointer;
+    color: $text-white;
+    padding: 10px;
+    border: none;
+    background: #7289da;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #677bc4;
+    }
+  }
+
+  .channel-icon {
+    position: absolute;
+    top: 34px;
+    left: 10px;
+  }
+}
+
+.buttons-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 20px;
+  background: #2f3136;
+  text-align: end;
+
+  .button-cancel {
+    color: $text-white;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 /* MAIN CONTAINER */
 
 .main-container {
@@ -461,6 +598,21 @@ input {
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
+  }
+}
+
+.user-box {
+  height: 58px;
+  background: $background-secondary-alt;
+  display: flex;
+  align-items: center;
+
+  &--content {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    margin: 0 1px;
+    color: $text-white;
   }
 }
 

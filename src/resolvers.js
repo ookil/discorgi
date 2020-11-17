@@ -4,10 +4,13 @@ const { CHANNEL_ADDED, MESSAGE_ADDED } = require('./constants');
 
 module.exports = {
   Query: {
+    getUser: (_, __, { dataSources }) => dataSources.serverAPI.getUser(),
     userServers: (_, __, { dataSources }) =>
       dataSources.serverAPI.getUserServers(),
-    channelsAndUsers: (_, { serverId }, { dataSources }) =>
-      dataSources.serverAPI.getServerInfo({serverId}),
+    serverChannels: (_, { serverId }, { dataSources }) =>
+      dataSources.serverAPI.getServerChannels({ serverId }),
+    serverUsers: (_, { serverId }, { dataSources }) =>
+      dataSources.serverAPI.getServerUsers({ serverId }),
   },
 
   Subscription: {

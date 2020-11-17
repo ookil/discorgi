@@ -23,44 +23,49 @@ const ServerList = () => {
 
   const { loading, error, data } = useQuery(GET_USER_SERVERS);
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error.message}</h1>;
-
   const handleButton = () => {
     setIsOpen(true);
   };
 
-  const content = data.userServers.map(({ id, name, icon }) => (
-    <div
-      key={id}
-      className={`server-list--box ${serverId === id ? 'active' : ''}`}
-      onClick={() =>
-        dispatch({
-          type: GET_SERVER,
-          payload: { serverId: id, serverName: name },
-        })
-      }
-      onMouseEnter={() => setHovered(id)}
-      onMouseLeave={() => setHovered(null)}
-    >
-      {
-        <div
-          className={`modal--server-name ${
-            isHoveredId === id ? 'hovered' : ''
-          }  `}
-        >
-          <div className='modal--arrow-left'></div>
-          <div className='modal--body'>
-            <span>{name}</span>
+  let content;
+
+  if (loading) {
+    content = <h5>Loading...</h5>;
+  } else if (data) {
+    content = data.userServers.map(({ id, name, icon, role }) => (
+      <div
+        key={id}
+        className={`server-list--box ${serverId === id ? 'active' : ''}`}
+        onClick={() =>
+          dispatch({
+            type: GET_SERVER,
+            payload: { serverId: id, serverName: name, serverRole: role },
+          })
+        }
+        onMouseEnter={() => setHovered(id)}
+        onMouseLeave={() => setHovered(null)}
+      >
+        {
+          <div
+            className={`modal--server-name ${
+              isHoveredId === id ? 'hovered' : ''
+            }  `}
+          >
+            <div className='modal--arrow-left'></div>
+            <div className='modal--body'>
+              <span>{name}</span>
+            </div>
           </div>
-        </div>
-      }
-      <img
-        src={require('../../img/corgi-server-' + icon + '.jpg').default}
-        alt={name}
-      />
-    </div>
-  ));
+        }
+        <img
+          src={require('../../img/corgi-server-' + icon + '.jpg').default}
+          alt={name}
+        />
+      </div>
+    ));
+  } else if (error) {
+    <h1>Error: {error.message}</h1>;
+  }
 
   return (
     <div className='server-list'>

@@ -17,6 +17,12 @@ class ServerAPI extends DataSource {
     this.context = config.context;
   }
 
+  async getUser() {
+    const user = auth(this.context);
+
+    return user;
+  }
+
   async createUser({ data: { name, password } }) {
     const user = await this.prisma.user.findOne({ where: { name } });
 
@@ -299,17 +305,14 @@ class ServerAPI extends DataSource {
       orderBy: { position: 'asc' },
     });
 
-    const serversWithRole = servers.map((server) => {
-      
-      if ((server.adminId === user.id)) {
+    servers.map((server) => {
+      if (server.adminId === user.id) {
         server.role = 'ADMIN';
       } else {
         server.role = 'USER';
       }
-      return server
+      return server;
     });
-
-    console.log(serversWithRole);
 
     return servers;
   }
@@ -338,12 +341,7 @@ class ServerAPI extends DataSource {
     });
   }
 
-  async getServerInfo({ serverId }) {
-    return {
-      channels: this.getServerChannels({ serverId }),
-      users: this.getServerUsers({ serverId }),
-    };
-  }
+  
 }
 
 module.exports = ServerAPI;

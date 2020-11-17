@@ -6,6 +6,8 @@ const ServerState = (props) => {
   const initialState = {
     serverId: "1",
     serverName: " Test 1",
+    serverRole: null,
+    openModal: null
   };
 
   const [state, dispatch] = useReducer(serverReducer, initialState);
