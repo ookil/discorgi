@@ -6,6 +6,7 @@ import UserBox from '../users/UserBox';
 
 import CreateChannelForm from './CreateChannelForm';
 import DeleteServer from '../servers/DeleteServer';
+import InviteModal from '../users/InviteModal';
 
 export const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
@@ -112,6 +113,7 @@ const ChannelsList = () => {
 
       <CreateChannelForm />
       <DeleteServer />
+      <InviteModal />
     </div>
   );
 };

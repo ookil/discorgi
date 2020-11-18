@@ -23,6 +23,8 @@ const CreateChannelForm = () => {
     update(cache, { data: { createChannel } }) {
       const newChannelFromResponse = createChannel;
 
+      console.log(cache.data.data);
+
       const existingChannels = cache.readQuery({
         query: GET_SERVER_CHANNELS,
         variables: {
