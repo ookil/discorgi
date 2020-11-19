@@ -18,14 +18,13 @@ export const GET_SERVER_CHANNELS = gql`
 `;
 
 const ChannelsList = () => {
-  const [test, setTest] = useState('');
 
   const [channelId, setChannelId] = useState(null);
 
   const [isDropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { serverId, serverName, openModal } = useContext(ServerContext);
+  const { serverId, serverName } = useContext(ServerContext);
 
   const { loading, error, data } = useQuery(GET_SERVER_CHANNELS, {
     variables: { serverId },
