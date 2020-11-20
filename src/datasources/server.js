@@ -244,11 +244,10 @@ class ServerAPI extends DataSource {
       },
     });
 
-    if (!isAdmin.length)
-      throw new ForbiddenError('You cannot create new channels');
+    if (!isAdmin.length) throw new ForbiddenError('You cannot delete channels');
 
     await this.prisma.message.deleteMany({
-      where: { channelId: serverId },
+      where: { channelId: parseInt(channelId) },
     });
 
     return await this.prisma.channel.delete({
@@ -340,8 +339,6 @@ class ServerAPI extends DataSource {
       },
     });
   }
-
-  
 }
 
 module.exports = ServerAPI;

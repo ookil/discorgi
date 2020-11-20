@@ -4,10 +4,12 @@ import serverReducer from './serverReducer';
 
 const ServerState = (props) => {
   const initialState = {
-    serverId: "1",
-    serverName: " Test 1",
+    serverId: '1',
+    serverName: ' Test 1',
     serverRole: null,
-    openModal: null
+    openModal: null,
+    channelId: null,
+    channelName: null,
   };
 
   const [state, dispatch] = useReducer(serverReducer, initialState);

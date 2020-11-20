@@ -1,20 +1,30 @@
+import { useContext } from 'react';
+import ServerContext from '../../context/serverContext';
+import ChannelsList from '../channels/ChannelsList';
+import ChatDisplay from '../chat/ChatDisplay';
+import MessageForm from '../chat/MessageForm';
 import UsersList from '../users/UsersList';
-/* import './serverContainer.scss'; */
 
 const MainServerContainer = () => {
-  return (
-    <div className='main-container'>
-      <div className='main-header'>
-        <h4>Channel Name</h4>
-      </div>
+  const { channelName } = useContext(ServerContext);
 
-      <div className='container-box'>
-        <div className='messages-container'>
-          <div /* style={{ paddingTop: '16px' }} */>Jestem messages</div>
+  return (
+    <>
+      <ChannelsList />
+      <div className='main-container'>
+        <div className='main-header'>
+          <h4>{channelName}</h4>
         </div>
-        <UsersList />
+
+        <div className='container-box'>
+          <div className='messages-container'>
+            <ChatDisplay />
+            <MessageForm />
+          </div>
+          <UsersList />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

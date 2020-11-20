@@ -37,12 +37,17 @@ const server = new ApolloServer({
   dataSources,
   subscriptions: {
     onConnect: ({ authorization }) => {
-      if (authorization) {
-        return validateToken(authorization);
+      console.log(authorization);
+    },
+
+    /* (connectionParams) => {
+      console.log(connectionParams);
+      if (connectionParams.authorization) {
+        return validateToken(connectionParams.authorization);
       }
 
       throw new ForbiddenError('Missing auth token');
-    },
+    }, */
   },
 });
 

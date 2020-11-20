@@ -504,6 +504,13 @@ input {
 .modifier-box--main {
   display: flex;
   align-items: center;
+
+  .name {
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* Create Channel Modal */
@@ -710,4 +717,53 @@ input {
 .separator {
   margin: 4px;
   border-bottom: 1px solid hsla(0, 0, 100%, 0.06);
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-display,
+.text-area {
+  padding: 0 16px;
+}
+
+.chat-display {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: calc(100% - 68px);
+  background: $background-primary;
+}
+
+.text-area {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 68px;
+  background: $background-primary;
+  padding-bottom: 24px;
+
+  .textarea {
+    box-sizing: border-box;
+    border: none;
+    border-radius: 8px;
+    resize: none;
+    font-size: 16px;
+    line-height: 24px;
+    overflow: auto;
+    min-height: 44px;
+    height: auto;
+    width: 100%;
+    padding: 11px;
+    background-color: #40444b;
+    color: $text-normal;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

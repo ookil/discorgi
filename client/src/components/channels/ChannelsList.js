@@ -7,6 +7,7 @@ import UserBox from '../users/UserBox';
 import CreateChannelForm from './CreateChannelForm';
 import DeleteServer from '../servers/DeleteServer';
 import InviteModal from '../users/InviteModal';
+import { GET_CHANNEL } from '../../const';
 
 export const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
@@ -17,18 +18,60 @@ export const GET_SERVER_CHANNELS = gql`
   }
 `;
 
+const CHANNEL_ADDED_SUBSCRIPTION = gql`
+  subscription Subscription($serverId: ID!) {
+    channelAdded(serverId: $serverId) {
+      id
+      name
+    }
+  }
+`;
+
 const ChannelsList = () => {
-
-  const [channelId, setChannelId] = useState(null);
-
   const [isDropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { serverId, serverName } = useContext(ServerContext);
+  const { serverId, serverName, channelId, dispatch } = useContext(
+    ServerContext
+  );
 
-  const { loading, error, data } = useQuery(GET_SERVER_CHANNELS, {
-    variables: { serverId },
-  });
+  const { subscribeToMore, loading, error, data } = useQuery(
+    GET_SERVER_CHANNELS,
+    {
+      variables: { serverId },
+    }
+  );
+
+  useEffect(() => {
+    subscribeToMore({
+      document: CHANNEL_ADDED_SUBSCRIPTION,
+      variables: { serverId },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+
+        const newChannelItem = subscriptionData.data.channelAdded;
+        
+        return Object.assign({}, prev, {
+          serverChannels: [...prev.serverChannels, newChannelItem],
+        });
+      },
+    });
+  }, [serverId, subscribeToMore]);
+
+  useEffect(() => {
+    if (data && data.serverChannels) {
+      const firstChannel = data.serverChannels[0];
+      if (firstChannel) {
+        dispatch({
+          type: GET_CHANNEL,
+          payload: {
+            channelId: firstChannel.id,
+            channelName: firstChannel.name,
+          },
+        });
+      }
+    }
+  }, [data, dispatch]);
 
   const handleHideDropdown = (e) => {
     if (e.key === 'Escape') {
@@ -60,7 +103,12 @@ const ChannelsList = () => {
       <div
         key={id}
         className={`modifier-box ${channelId === id ? 'active' : ''}`}
-        onClick={() => setChannelId(id)}
+        onClick={() =>
+          dispatch({
+            type: GET_CHANNEL,
+            payload: { channelId: id, channelName: name },
+          })
+        }
       >
         <div className='modifier-box--main'>
           <div>
@@ -79,7 +127,7 @@ const ChannelsList = () => {
             </svg>
           </div>
 
-          <div>{name}</div>
+          <div className='name'>{name}</div>
         </div>
       </div>
     ));

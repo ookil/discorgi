@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.scss';
 import ChannelsList from './components/channels/ChannelsList';
 import MainServerContainer from './components/messages/MainServerContainer';
@@ -11,22 +10,6 @@ function App() {
       <div className='App'>
         <div style={{ display: 'flex' }} className='container'>
           <ServerList />
-          {/* <Router>
-            <Switch>
-              <Route
-                
-                path='/channels/:serverId'
-                component={ChannelsList}
-              />
-              <Route
-                exact
-                path='/channels/:serverId/channelId'
-                component={MainServerContainer}
-              />
-              
-            </Switch>
-          </Router> */}
-          <ChannelsList />
           <MainServerContainer />
         </div>
       </div>

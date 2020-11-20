@@ -18,7 +18,7 @@ module.exports = {
       subscribe: withFilter(
         (_, __, context) => context.pubsub.asyncIterator(CHANNEL_ADDED),
         (payload, variables) => {
-          return payload.channelAdded.serverId === parseInt(variables.serverId);
+          return payload.channelAdded.serverId === variables.serverId;
         }
       ),
     },
