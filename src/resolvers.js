@@ -7,10 +7,14 @@ module.exports = {
     getUser: (_, __, { dataSources }) => dataSources.serverAPI.getUser(),
     userServers: (_, __, { dataSources }) =>
       dataSources.serverAPI.getUserServers(),
-    serverChannels: (_, { serverId }, { dataSources }) =>
+    server: (_, { serverId }, { dataSources }) =>
+      dataSources.serverAPI.getServer({ serverId }),
+
+    /* serverChannels: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.getServerChannels({ serverId }),
     serverUsers: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.getServerUsers({ serverId }),
+      */
   },
 
   Subscription: {

@@ -19,11 +19,9 @@ const CreateChannelForm = () => {
 
   const { openModal, dispatch, serverId } = useContext(ServerContext);
 
-  const [createNewChannel] = useMutation(CREATE_NEW_CHANNEL, {
+  const [createNewChannel] = useMutation(CREATE_NEW_CHANNEL/* , {
     update(cache, { data: { createChannel } }) {
       const newChannelFromResponse = createChannel;
-
-      console.log(cache.data.data);
 
       const existingChannels = cache.readQuery({
         query: GET_SERVER_CHANNELS,
@@ -38,13 +36,15 @@ const CreateChannelForm = () => {
           serverId,
         },
         data: {
-          serverChannels: existingChannels.serverChannels.concat(
-            newChannelFromResponse
-          ),
+          server: {
+            channels: existingChannels.server.channels.concat(
+              newChannelFromResponse
+            ),
+          },
         },
       });
     },
-  });
+  } */);
 
   const handleSubmit = (e) => {
     e.preventDefault();

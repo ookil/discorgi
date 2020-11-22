@@ -4,8 +4,7 @@ const typeDefs = gql`
   type Query {
     getUser: AuthUser
     userServers: [Server]
-    serverChannels(serverId: ID!): [Channel]
-    serverUsers(serverId: ID!): [User]
+    server(serverId: ID!): Server
   }
 
   type Subscription {

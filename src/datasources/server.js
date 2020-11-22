@@ -316,6 +316,16 @@ class ServerAPI extends DataSource {
     return servers;
   }
 
+  async getServer({ serverId }) {
+    auth(this.context);
+
+    return await this.prisma.server.findOne({
+      where: {
+        id: serverId,
+      },
+    });
+  }
+
   async getServerChannels({ serverId }) {
     return await this.prisma.channel.findMany({
       where: {

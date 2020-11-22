@@ -1,5 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import icon from '../../img/corgi-icon.png';
+import { memo } from 'react';
 
 const GET_USER = gql`
   query getUser {
@@ -10,8 +11,8 @@ const GET_USER = gql`
   }
 `;
 
-const UserBox = () => {
-  const { loading, __, data } = useQuery(GET_USER);
+const UserBox = memo(() => {
+  const { loading, data } = useQuery(GET_USER);
 
   let content;
 
@@ -42,6 +43,6 @@ const UserBox = () => {
   }
 
   return <div className='user-box'>{content}</div>;
-};
+});
 
 export default UserBox;

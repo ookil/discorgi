@@ -11,9 +11,12 @@ import { GET_CHANNEL } from '../../const';
 
 export const GET_SERVER_CHANNELS = gql`
   query getServerChannels($serverId: ID!) {
-    serverChannels(serverId: $serverId) {
+    server(serverId: $serverId) {
       id
-      name
+      channels {
+        id
+        name
+      }
     }
   }
 `;
@@ -50,17 +53,19 @@ const ChannelsList = () => {
         if (!subscriptionData.data) return prev;
 
         const newChannelItem = subscriptionData.data.channelAdded;
-        
+
         return Object.assign({}, prev, {
-          serverChannels: [...prev.serverChannels, newChannelItem],
+          server: {
+            channels: [...prev.server.channels, newChannelItem],
+          },
         });
       },
     });
   }, [serverId, subscribeToMore]);
 
   useEffect(() => {
-    if (data && data.serverChannels) {
-      const firstChannel = data.serverChannels[0];
+    if (data && data.server && data.server.channels) {
+      const firstChannel = data.server.channels[0];
       if (firstChannel) {
         dispatch({
           type: GET_CHANNEL,
@@ -99,7 +104,7 @@ const ChannelsList = () => {
   if (loading) {
     content = <div> Loading...</div>;
   } else if (data) {
-    content = data.serverChannels.map(({ id, name }) => (
+    content = data.server.channels.map(({ id, name }) => (
       <div
         key={id}
         className={`modifier-box ${channelId === id ? 'active' : ''}`}

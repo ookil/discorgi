@@ -44,6 +44,7 @@ const DeleteServer = () => {
     update(cache, { data: { deleteServer } }) {
       const serverToDelete = cache.identify(deleteServer);
       cache.evict({ id: serverToDelete });
+      cache.gc();
     },
   });
 
