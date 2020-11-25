@@ -1,11 +1,14 @@
 import { useReducer } from 'react';
 import ServerContext from './serverContext';
 import serverReducer from './serverReducer';
+import { DEFAULT_SERVER } from '../const';
 
 const ServerState = (props) => {
+  const { serverId, serverName } = DEFAULT_SERVER;
+
   const initialState = {
-    serverId: '1',
-    serverName: ' Test 1',
+    serverId,
+    serverName,
     serverRole: null,
     openModal: null,
     channelId: null,

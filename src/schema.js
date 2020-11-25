@@ -8,8 +8,8 @@ const typeDefs = gql`
   }
 
   type Subscription {
-    channelAdded(serverId: ID!): Channel
-
+    channelSub(serverId: ID!): ChannelSubscription!
+    userSub(serverId: ID!): UserSubscription!
     messageAdded(channelId: ID!): Message
   }
 
@@ -26,6 +26,17 @@ const typeDefs = gql`
     deleteChannel(data: DeleteChannelInput!): Channel
 
     createMessage(data: CreateMessageInput!): Message
+  }
+
+  type ChannelSubscription {
+    mutation: String!
+    data: Channel!
+  }
+
+  type UserSubscription {
+    mutation: String!
+    data: User!
+    serverId: ID!
   }
 
   type AuthUser {

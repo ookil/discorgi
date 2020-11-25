@@ -1,6 +1,6 @@
 const { withFilter } = require('apollo-server');
 const { GraphQLDate } = require('graphql-iso-date');
-const { CHANNEL_ADDED, MESSAGE_ADDED } = require('./constants');
+const { CHANNEL_SUB, USER_SUB, MESSAGE_ADDED } = require('./constants');
 
 module.exports = {
   Query: {
@@ -18,14 +18,24 @@ module.exports = {
   },
 
   Subscription: {
-    channelAdded: {
+    channelSub: {
       subscribe: withFilter(
-        (_, __, context) => context.pubsub.asyncIterator(CHANNEL_ADDED),
+        (_, __, context) => context.pubsub.asyncIterator(CHANNEL_SUB),
         (payload, variables) => {
-          return payload.channelAdded.serverId === variables.serverId;
+          return payload.channelSub.data.serverId === variables.serverId;
         }
       ),
     },
+    userSub: {
+      subscribe: withFilter(
+        (_, __, { pubsub }) => pubsub.asyncIterator(USER_SUB),
+        (payload, variables) => {
+          console.log(payload.userSub);
+          return payload.userSub.serverId === variables.serverId;
+        }
+      ),
+    },
+
     messageAdded: {
       subscribe: withFilter(
         (_, __, { pubsub }) => pubsub.asyncIterator(MESSAGE_ADDED),

@@ -21,11 +21,14 @@ export const GET_SERVER_CHANNELS = gql`
   }
 `;
 
-const CHANNEL_ADDED_SUBSCRIPTION = gql`
-  subscription Subscription($serverId: ID!) {
-    channelAdded(serverId: $serverId) {
-      id
-      name
+const CHANNEL_SUBSCRIPTION = gql`
+  subscription channelSubscription($serverId: ID!) {
+    channelSub(serverId: $serverId) {
+      mutation
+      data {
+        id
+        name
+      }
     }
   }
 `;
@@ -47,18 +50,29 @@ const ChannelsList = () => {
 
   useEffect(() => {
     subscribeToMore({
-      document: CHANNEL_ADDED_SUBSCRIPTION,
+      document: CHANNEL_SUBSCRIPTION,
       variables: { serverId },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
+        const subscriptionResponse = subscriptionData.data.channelSub;
 
-        const newChannelItem = subscriptionData.data.channelAdded;
+        if (subscriptionResponse.mutation === 'Added') {
+          return Object.assign({}, prev, {
+            server: {
+              channels: [...prev.server.channels, subscriptionResponse.data],
+            },
+          });
+        }
 
-        return Object.assign({}, prev, {
-          server: {
-            channels: [...prev.server.channels, newChannelItem],
-          },
-        });
+        if (subscriptionResponse.mutation === 'Deleted') {
+          return {
+            server: {
+              channels: prev.server.channels.filter(
+                (channel) => channel.id !== subscriptionResponse.data.id
+              ),
+            },
+          };
+        }
       },
     });
   }, [serverId, subscribeToMore]);

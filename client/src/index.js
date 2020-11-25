@@ -2,25 +2,26 @@ import {
   ApolloClient,
   ApolloProvider,
   createHttpLink,
-  InMemoryCache,
+  gql,
   split,
+  useQuery,
 } from '@apollo/client';
+import { cache } from './cache';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Home from './pages/Home';
+import Auth from './pages/Auth';
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
   operations: {
     reconnect: true,
     connectionParams: {
-      authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJuYW1lIjoic3lsd2lhIn0sImlhdCI6MTYwNDg3MDEyNn0.6xaEgERtjTH7D99hzoVpSnr4q-qg8oswCsRoeSoC37c',
+      authToken: localStorage.getItem('token'),
     },
   },
 });
@@ -30,11 +31,13 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+
   return {
     headers: {
       ...headers,
-      authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJuYW1lIjoic3lsd2lhIn0sImlhdCI6MTYwNDg3MDEyNn0.6xaEgERtjTH7D99hzoVpSnr4q-qg8oswCsRoeSoC37c',
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -42,7 +45,6 @@ const authLink = setContext((_, { headers }) => {
 const authHttpLink = authLink.concat(httpLink);
 
 //Using this logic, queries and mutations will use HTTP as normal, and subscriptions will use WebSocket.
-
 const link = split(
   (operation) => {
     const definition = getMainDefinition(operation.query);
@@ -55,19 +57,32 @@ const link = split(
   authHttpLink
 );
 
+const typeDefs = gql`
+  extend type Query {
+    isLoggedIn: Boolean!
+  }
+`;
+
 const client = new ApolloClient({
+  typeDefs,
   link,
-  cache: new InMemoryCache(),
+  cache,
 });
+
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
+function IsLoggedIn() {
+  const { data } = useQuery(IS_LOGGED_IN);
+  return data.isLoggedIn ? <Home /> : <Auth />;
+}
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <IsLoggedIn />
   </ApolloProvider>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

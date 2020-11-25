@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import ServerContext from '../../context/serverContext';
 import { CREATE_CHANNEL, OPEN_MODAL } from '../../const';
 import { useMutation, gql } from '@apollo/client';
-import { GET_SERVER_CHANNELS } from './ChannelsList';
 
 const CREATE_NEW_CHANNEL = gql`
   mutation CreateChannelMutation($createChannelData: CreateChannelInput!) {

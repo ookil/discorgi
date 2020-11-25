@@ -7,7 +7,7 @@ export const GET_CHANNEL = 'GET_CHANNEL';
 
 
 export const DEFAULT_SERVER = {
-  serverId: '1',
-  serverName: 'Test 1 ',
+  serverId: 'welcome',
+  serverName: 'Welcome Server! ',
   serverRole: 'USER',
 };

@@ -36,8 +36,8 @@ const server = new ApolloServer({
   resolvers,
   dataSources,
   subscriptions: {
-    onConnect: ({ authorization }) => {
-      console.log(authorization);
+    onConnect: ({ authToken }) => {
+      console.log('\x1b[36m%s\x1b[0m', 'authtoken: ' + authToken);
     },
 
     /* (connectionParams) => {

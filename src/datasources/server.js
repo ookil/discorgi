@@ -4,8 +4,14 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils');
-const { CHANNEL_ADDED, MESSAGE_ADDED } = require('../constants');
+const {
+  CHANNEL_ADDED,
+  MESSAGE_ADDED,
+  CHANNEL_SUB,
+  USER_SUB,
+} = require('../constants');
 const { nanoid } = require('nanoid');
+const { DEFAULT_SERVER_ID } = require('../constants');
 
 class ServerAPI extends DataSource {
   constructor({ prisma }) {
@@ -45,6 +51,13 @@ class ServerAPI extends DataSource {
 
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
+    await this.prisma.usersOnServer.create({
+      data: {
+        server: { connect: { id: DEFAULT_SERVER_ID } },
+        user: { connect: { id: parseInt(newUser.id) } },
+      },
+    });
+
     return { token };
   }
 
@@ -81,6 +94,9 @@ class ServerAPI extends DataSource {
           connect: {
             id: parseInt(user.id),
           },
+        },
+        channels: {
+          create: { name: 'general' },
         },
       },
     });
@@ -171,6 +187,10 @@ class ServerAPI extends DataSource {
       },
     });
 
+    this.context.pubsub.publish(USER_SUB, {
+      userSub: { mutation: 'Added', data: user, serverId },
+    });
+
     return await this.prisma.server.findOne({
       where: { id: serverId },
     });
@@ -190,6 +210,10 @@ class ServerAPI extends DataSource {
           },
         ],
       },
+    });
+
+    this.context.pubsub.publish(USER_SUB, {
+      userSub: { mutation: 'Deleted', data: user, serverId },
     });
 
     return await this.prisma.server.findOne({
@@ -223,7 +247,9 @@ class ServerAPI extends DataSource {
       },
     });
 
-    this.context.pubsub.publish(CHANNEL_ADDED, { channelAdded: newChannel });
+    this.context.pubsub.publish(CHANNEL_SUB, {
+      channelSub: { mutation: 'Added', data: newChannel },
+    });
 
     return newChannel;
   }
@@ -250,9 +276,15 @@ class ServerAPI extends DataSource {
       where: { channelId: parseInt(channelId) },
     });
 
-    return await this.prisma.channel.delete({
+    const deletedChannel = await this.prisma.channel.delete({
       where: { id: parseInt(channelId) },
     });
+
+    this.context.pubsub.publish(CHANNEL_SUB, {
+      channelSub: { mutation: 'Deleted', data: deletedChannel },
+    });
+
+    return deletedChannel;
   }
 
   async createMessage({ data: { msg, channelId, serverId } }) {
