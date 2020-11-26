@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { GET_USER_SERVERS } from './ServerList';
 import icon0 from '../../img/corgi-server-0.jpg';
 import icon1 from '../../img/corgi-server-1.jpg';
@@ -6,6 +6,7 @@ import icon2 from '../../img/corgi-server-2.jpg';
 import icon3 from '../../img/corgi-server-3.jpg';
 import icon4 from '../../img/corgi-server-4.jpg';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const serverIcons = [
   { id: '0', src: icon0 },
@@ -21,18 +22,32 @@ const CREATE_SERVER = gql`
       id
       name
       icon
+      channels {
+        id
+      }
+    }
+  }
+`;
+
+const GET_USERNAME = gql`
+  query getUsername {
+    getUser @client {
+      name
     }
   }
 `;
 
 const AddServerForm = ({ setState, setIsOpen }) => {
   let input;
+  const history = useHistory();
 
   const [iconId, setIcon] = useState('0');
 
+  const { data } = useQuery(GET_USERNAME);
+
   const [createServer] = useMutation(CREATE_SERVER, {
     update(cache, { data: { createServer } }) {
-      const newServerFromResponse = {...createServer, role: 'ADMIN'};
+      const newServerFromResponse = { ...createServer, role: 'ADMIN' };
       const existingServers = cache.readQuery({
         query: GET_USER_SERVERS,
       });
@@ -46,13 +61,21 @@ const AddServerForm = ({ setState, setIsOpen }) => {
         },
       });
     },
+    onCompleted({ createServer }) {
+      history.push(
+        `/channels/${createServer.id}/${createServer.channels[0].id}`
+      );
+    },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newServerName = input.value
+      ? input.value
+      : data.getUser.name + `'s server`;
     createServer({
       variables: {
-        createServerData: { serverName: input.value, icon: iconId },
+        createServerData: { serverName: newServerName, icon: iconId },
       },
     });
     input.value = '';
@@ -77,6 +100,7 @@ const AddServerForm = ({ setState, setIsOpen }) => {
         >
           {serverIcons.map(({ id, src }) => (
             <img
+              alt={`icon ${id}`}
               onClick={() => setIcon(id)}
               key={id}
               src={src}
@@ -90,9 +114,10 @@ const AddServerForm = ({ setState, setIsOpen }) => {
           <label htmlFor='servername'>SERVER NAME</label>
           <br />
           <input
-            required
+            placeholder={`${data.getUser.name}'s server`}
             type='text'
             name='servername'
+            style={{ padding: '10px' }}
             ref={(node) => {
               input = node;
             }}

@@ -1,17 +1,25 @@
 import { gql, useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const JOIN_SERVER = gql`
   mutation Mutation($serverId: ID!) {
     joinServer(serverId: $serverId) {
       id
+      channels {
+        id
+        name
+      }
     }
   }
 `;
 
 const JoinServerForm = ({ setState, setIsOpen }) => {
-  let input;
-  const [joinServer, {error}] = useMutation(
-    JOIN_SERVER , {
+  const [input, setInput] = useState('');
+  const [errors, setErrors] = useState(false);
+  const history = useHistory();
+
+  const [joinServer, { error }] = useMutation(JOIN_SERVER, {
     update(cache, { data: { joinServer } }) {
       const cacheId = cache.identify(joinServer);
       cache.modify({
@@ -22,40 +30,56 @@ const JoinServerForm = ({ setState, setIsOpen }) => {
         },
       });
     },
-  }
-  );
-
+    onCompleted({ joinServer }) {
+      history.push(`/channels/${joinServer.id}/${joinServer.channels[0].id}`);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    joinServer({ variables: { serverId: input.value } });
-    input.value = '';
-    setIsOpen(false);
+    if (input) {
+      joinServer({ variables: { serverId: input } }).then(() => {
+        setInput('');
+        setState('main');
+        setIsOpen(false);
+      });
+    }
+    setErrors(true);
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
-      <div style={{ textAlign: 'center', marginBottom: '.5em' }}>
+    <div className='join-server--form'>
+      <div style={{ textAlign: 'center' }}>
         <h2 style={{ marginBottom: '.5em' }}>Join a Server</h2>
         <p>Enter an invite below to join an existing server</p>
       </div>
 
       <div>
         <form id='join-server' onSubmit={handleSubmit}>
-          <label htmlFor='invite-link'>INVITE LINK</label>
+          <label
+            htmlFor='invite-link'
+            className={error || errors ? 'error' : ''}
+          >
+            INVITE LINK
+            {error ? (
+              <span> - {error.message}</span>
+            ) : errors ? (
+              <span> - Please enter a valid code</span>
+            ) : (
+              <span> * </span>
+            )}
+          </label>
           <br />
           <input
-            required
             placeholder='6_bKG_U2efsnkwdJiyPO2'
             type='text'
             name='invite-link'
-            ref={(node) => {
-              input = node;
-            }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
         </form>
       </div>
-      <div style={{display: 'flex' }}>
+      <div style={{ display: 'flex' }}>
         <button className='back-button' onClick={() => setState('main')}>
           Back
         </button>

@@ -6,9 +6,27 @@ import {
   DELETE_SERVER,
   INVITE_TO_SERVER,
 } from '../../const';
+import { useParams } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+
+const SERVER_ROLE = gql`
+  query serverRole($serverId: ID!) {
+    server(serverId: $serverId) @client {
+      id
+      role
+    }
+  }
+`;
 
 const Dropdown = () => {
-  const { dispatch, serverRole } = useContext(ServerContext);
+  const { serverId } = useParams();
+
+  const { data } = useQuery(SERVER_ROLE, {
+    variables: {
+      serverId,
+    },
+  });
+  const { dispatch } = useContext(ServerContext);
 
   return (
     <div className='dropdown-menu--server'>
@@ -21,7 +39,7 @@ const Dropdown = () => {
         <p>Invite People</p>
         <i className='fas fa-user-plus' />
       </div>
-      {serverRole === 'ADMIN' && (
+      {data.server.role === 'ADMIN' && (
         <div
           className='dropdown-box'
           onClick={() =>
@@ -37,7 +55,7 @@ const Dropdown = () => {
         className='dropdown-box delete'
         onClick={() => dispatch({ type: OPEN_MODAL, payload: DELETE_SERVER })}
       >
-        {serverRole === 'ADMIN' ? (
+        {data.server.role === 'ADMIN' ? (
           <>
             <p>Delete Server</p>
             <i className='far fa-trash-alt' />

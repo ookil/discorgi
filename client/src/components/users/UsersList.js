@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-import ServerContext from '../../context/serverContext';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import icon from '../../img/corgi-icon.png';
 
 const GET_SERVER_USERS = gql`
@@ -28,7 +28,7 @@ const USER_SUBSCRIBE = gql`
 `;
 
 const UsersList = () => {
-  const { serverId } = useContext(ServerContext);
+  const { serverId } = useParams();
 
   const { subscribeToMore, loading, error, data } = useQuery(GET_SERVER_USERS, {
     variables: { serverId },

@@ -5,7 +5,6 @@ export default (state, action) => {
     case GET_SERVER:
       return {
         ...state,
-        serverId: action.payload.serverId,
         serverName: action.payload.serverName,
         serverRole: action.payload.serverRole,
       };

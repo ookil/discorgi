@@ -4,12 +4,7 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils');
-const {
-  CHANNEL_ADDED,
-  MESSAGE_ADDED,
-  CHANNEL_SUB,
-  USER_SUB,
-} = require('../constants');
+const { MESSAGE_ADDED, CHANNEL_SUB, USER_SUB } = require('../constants');
 const { nanoid } = require('nanoid');
 const { DEFAULT_SERVER_ID } = require('../constants');
 
@@ -163,7 +158,8 @@ class ServerAPI extends DataSource {
       },
     });
 
-    if (!server) return null;
+    if (!server)
+      throw new UserInputError(`The invite is invalid or has expired`);
 
     const userOnServer = await this.prisma.usersOnServer.findFirst({
       where: {
@@ -178,7 +174,7 @@ class ServerAPI extends DataSource {
       },
     });
 
-    if (userOnServer) return null;
+    if (userOnServer) throw new UserInputError('You already joined...');
 
     await this.prisma.usersOnServer.create({
       data: {

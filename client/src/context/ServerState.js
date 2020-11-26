@@ -4,10 +4,9 @@ import serverReducer from './serverReducer';
 import { DEFAULT_SERVER } from '../const';
 
 const ServerState = (props) => {
-  const { serverId, serverName } = DEFAULT_SERVER;
+  const { serverName } = DEFAULT_SERVER;
 
   const initialState = {
-    serverId,
     serverName,
     serverRole: null,
     openModal: null,

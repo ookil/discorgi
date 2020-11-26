@@ -9,6 +9,7 @@ import {
 } from '../../const';
 import { useMutation, gql } from '@apollo/client';
 import { customStyles } from '../channels/CreateChannelForm';
+import { useHistory, useParams } from 'react-router-dom';
 
 const DELETE_SERVER_MUTATION = gql`
   mutation DeleteServer($serverId: ID!) {
@@ -29,7 +30,10 @@ const LEAVE_SERVER_MUTATION = gql`
 const DeleteServer = () => {
   let nameRef;
 
-  const { openModal, dispatch, serverId, serverName, serverRole } = useContext(
+  const { serverId } = useParams();
+  const history = useHistory();
+
+  const { openModal, dispatch, serverName, serverRole } = useContext(
     ServerContext
   );
 
@@ -46,12 +50,19 @@ const DeleteServer = () => {
       cache.evict({ id: serverToDelete });
       cache.gc();
     },
+    onCompleted() {
+      history.push('/channels/welcome/1');
+    },
   });
 
   const [leaveServer] = useMutation(LEAVE_SERVER_MUTATION, {
     update(cache, { data: { leaveServer } }) {
       const serverToDelete = cache.identify(leaveServer);
       cache.evict({ id: serverToDelete });
+      cache.gc();
+    },
+    onCompleted() {
+      history.push('/channels/welcome/1');
     },
   });
 

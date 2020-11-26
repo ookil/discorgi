@@ -3,11 +3,27 @@ import Modal from 'react-modal';
 import ServerContext from '../../context/serverContext';
 import { OPEN_MODAL, INVITE_TO_SERVER } from '../../const';
 import { customStyles } from '../channels/CreateChannelForm';
+import { useParams } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
+
+const GET_SERVER = gql`
+  query getServer($serverId: ID!) {
+    server(serverId: $serverId) @client {
+      name
+    }
+  }
+`;
 
 const InviteModal = () => {
-  const { openModal, dispatch, serverId, serverName } = useContext(
-    ServerContext
-  );
+  const { openModal, dispatch, serverName } = useContext(ServerContext);
+
+  const { serverId } = useParams();
+
+  const { data } = useQuery(GET_SERVER, {
+    variables: {
+      serverId,
+    },
+  });
 
   let input;
 
@@ -39,7 +55,7 @@ const InviteModal = () => {
           </p>
           <h3 className='modal-title'>
             Invite friends to{' '}
-            <span style={{ color: '#7289da' }}>{serverName}</span>
+            <span style={{ color: '#7289da' }}>{data && data.server.name}</span>
           </h3>
 
           <div style={{ position: 'relative', marginTop: '20px' }}>

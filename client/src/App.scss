@@ -409,6 +409,28 @@ input {
   border: 1px solid #44b483;
 }
 
+/* Join server Form */
+.join-server--form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+
+  input {
+    padding: 10px;
+  }
+
+  span {
+    font-style: italic;
+    font-size: 11px;
+    color: #d84040;
+  }
+
+  .error {
+    color: #d84040;
+  }
+}
+
 /* CHANNELS */
 
 .channels-list {

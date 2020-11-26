@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import ServerContext from '../../context/serverContext';
 import { CREATE_CHANNEL, OPEN_MODAL } from '../../const';
 import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { GET_SERVER_CHANNELS } from './ChannelsList';
 
 const CREATE_NEW_CHANNEL = gql`
   mutation CreateChannelMutation($createChannelData: CreateChannelInput!) {
@@ -15,8 +17,8 @@ const CREATE_NEW_CHANNEL = gql`
 
 const CreateChannelForm = () => {
   let channelRef;
-
-  const { openModal, dispatch, serverId } = useContext(ServerContext);
+  const { serverId } = useParams();
+  const { openModal, dispatch } = useContext(ServerContext);
 
   const [createNewChannel] = useMutation(CREATE_NEW_CHANNEL/* , {
     update(cache, { data: { createChannel } }) {
@@ -28,6 +30,8 @@ const CreateChannelForm = () => {
           serverId,
         },
       });
+      console.log(existingChannels);
+      console.log(newChannelFromResponse);
 
       cache.writeQuery({
         query: GET_SERVER_CHANNELS,

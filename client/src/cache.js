@@ -11,6 +11,32 @@ export const cache = new InMemoryCache({
             return isLoggedInVar();
           },
         },
+
+        channel(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Channel',
+            id: args.channelId,
+          });
+        },
+        userServers: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+        server: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+    Server: {
+      fields: {
+        users: {
+          merge(_, incoming) {
+            return [...incoming];
+          },
+        },
       },
     },
   },
