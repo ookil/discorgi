@@ -764,6 +764,14 @@ input {
   flex-shrink: 1;
   flex-basis: calc(100% - 68px);
   background: $background-primary;
+
+  &--wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+  }
 }
 
 .text-area {

@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import ServerContext from '../../context/serverContext';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const ResizableTextarea = ({ createNewMessage }) => {
   const [state, setState] = useState({
@@ -9,7 +9,7 @@ const ResizableTextarea = ({ createNewMessage }) => {
     maxRows: 18,
   });
 
-  const { serverId, channelId } = useContext(ServerContext);
+  const { serverId, channelId } = useParams();
 
   const handleChange = (event) => {
     const textareaLineHeight = 24;

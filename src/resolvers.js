@@ -10,11 +10,8 @@ module.exports = {
     server: (_, { serverId }, { dataSources }) =>
       dataSources.serverAPI.getServer({ serverId }),
 
-    /* serverChannels: (_, { serverId }, { dataSources }) =>
-      dataSources.serverAPI.getServerChannels({ serverId }),
-    serverUsers: (_, { serverId }, { dataSources }) =>
-      dataSources.serverAPI.getServerUsers({ serverId }),
-      */
+    getMessages: (_, { channelId, pageSize, after }, { dataSources }) =>
+      dataSources.serverAPI.getMessages({ channelId, pageSize, after }),
   },
 
   Subscription: {

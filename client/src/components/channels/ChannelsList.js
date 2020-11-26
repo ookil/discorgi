@@ -51,6 +51,7 @@ const ChannelsList = () => {
       document: CHANNEL_SUBSCRIPTION,
       variables: { serverId },
       updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
         if (!subscriptionData.data) return prev;
         const subscriptionResponse = subscriptionData.data.channelSub;
         /* console.log(subscriptionResponse);

@@ -3,7 +3,7 @@ const { DataSource } = require('apollo-datasource');
 const { UserInputError, ForbiddenError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { auth } = require('../utils');
+const { auth, paginateResults } = require('../utils');
 const { MESSAGE_ADDED, CHANNEL_SUB, USER_SUB } = require('../constants');
 const { nanoid } = require('nanoid');
 const { DEFAULT_SERVER_ID } = require('../constants');
@@ -376,6 +376,32 @@ class ServerAPI extends DataSource {
         },
       },
     });
+  }
+
+  async getMessages({ pageSize = 30, after, channelId }) {
+    const allMessages = await this.prisma.message.findMany({
+      where: {
+        channelId: parseInt(channelId),
+      },
+    });
+
+    // newest should be first
+    allMessages.reverse();
+
+    const messages = paginateResults({ after, pageSize, results: allMessages });
+
+    /* console.log(messages[messages.length - 1]); */
+
+    return {
+      messages,
+      cursor: messages.length ? messages[messages.length - 1].id : null,
+      //if the cursor at the end of the paginated results is the same as the
+      // last item in all_results, then there are no more results after
+      hasMore: messages.length
+        ? messages[messages.length - 1].id !==
+          allMessages[allMessages.length - 1].id
+        : false,
+    };
   }
 }
 

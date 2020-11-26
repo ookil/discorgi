@@ -5,6 +5,11 @@ const typeDefs = gql`
     getUser: AuthUser
     userServers: [Server]
     server(serverId: ID!): Server
+    getMessages(
+      pageSize: Int
+      after: String
+      channelId: ID!
+    ): MessageConnection!
   }
 
   type Subscription {
@@ -26,6 +31,12 @@ const typeDefs = gql`
     deleteChannel(data: DeleteChannelInput!): Channel
 
     createMessage(data: CreateMessageInput!): Message
+  }
+
+  type MessageConnection {
+    cursor: String
+    hasMore: Boolean!
+    messages: [Message]!
   }
 
   type ChannelSubscription {

@@ -15,4 +15,32 @@ module.exports.auth = ({ req }) => {
   }
 };
 
+module.exports.paginateResults = ({
+  after: cursor,
+  pageSize = 30,
+  results,
+  getCursor = () => null,
+}) => {
+  if (pageSize < 1) return [];
 
+  if (!cursor) return results.slice(0, pageSize); // no cursor so reeturning first batch of results
+
+  const cursorIndex = results.findIndex((item) => {
+    // if an item has a 'cursor' on it - use it, otherwise generate one
+    let itemCursor = item.id ? item.id : getCursor(item);
+
+    console.log(itemCursor);
+    
+    // if still no cursor, return false by default
+    return itemCursor ? cursor === itemCursor : false;
+  });
+
+  return cursorIndex >= 0
+    ? cursorIndex === results.length - 1
+      ? []
+      : results.slice(
+          cursorIndex + 1,
+          Math.min(results.length, cursorIndex + 1 + pageSize)
+        )
+    : results.slice(0, pageSize);
+};
