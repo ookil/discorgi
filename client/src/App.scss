@@ -1,5 +1,6 @@
 $scrollbar-thumb: #202225;
 $scrollbar-track: transparent;
+$scrollbar-default-track:#2e3338;
 $background-primary: #36393f;
 $background-secondary: #2f3136;
 $background-secondary-alt: #292b2f;
@@ -752,9 +753,10 @@ input {
 .messages-container {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 48px);
 }
 
-.chat-display,
+
 .text-area {
   padding: 0 16px;
 }
@@ -762,15 +764,37 @@ input {
 .chat-display {
   flex-grow: 0;
   flex-shrink: 1;
-  flex-basis: calc(100% - 68px);
+  flex-basis: calc(100vh - 74px);
   background: $background-primary;
+  
 
   &--wrapper {
     height: 100%;
+    flex-shrink: 1;
+    overflow-y: scroll;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
     padding-bottom: 20px;
+    padding-left: 16px;
+    margin-right: 5px;
+    scrollbar-color: $scrollbar-thumb $scrollbar-default-track;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: $scrollbar-default-track;
+      margin-top: 5px;
+
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: $scrollbar-thumb;
+    }
   }
 }
 

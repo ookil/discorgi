@@ -28,6 +28,11 @@ export const cache = new InMemoryCache({
             return incoming;
           },
         },
+        getMessages: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     Server: {

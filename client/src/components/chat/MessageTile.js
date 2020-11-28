@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react';
 
 const MessageTile = ({ message }) => {
   const { username, msg, date } = message;
@@ -13,9 +13,7 @@ const MessageTile = ({ message }) => {
             borderRadius: '50%',
             background: 'skyblue',
           }}
-        >
-          
-        </div>
+        ></div>
         <div>
           <h4>
             <span>{username}</span>

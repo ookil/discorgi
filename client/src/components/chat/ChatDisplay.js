@@ -45,14 +45,13 @@ const ChatDisplay = () => {
     subscribeToMore({
       document: MESSAGE_SUBSCRIPTION,
       variables: { channelId },
-      updateQuery: (prev, { subscribtionData }) => {
-        if (!subscribtionData.data) return prev;
-
-        const subscriptionResponse = subscribtionData.data.messageAdded;
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const subscriptionResponse = subscriptionData.data.messageAdded;
 
         return Object.assign({}, prev, {
           getMessages: {
-            messages: [subscriptionResponse, ...prev.getMessages.messages],
+            messages: [...prev.getMessages.messages, subscriptionResponse],
           },
         });
       },
