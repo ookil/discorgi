@@ -27,14 +27,12 @@ const wsLink = new WebSocketLink({
 });
 
 const httpLink = createHttpLink({
-  uri: `/`,
+  uri: `/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = sessionStorage.getItem('token');
-
-  console.log(token);
 
   return {
     headers: {
