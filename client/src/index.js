@@ -17,7 +17,7 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 
 const wsLink = new WebSocketLink({
-  uri: `wss:/graphql`,
+  uri: `wss://discorgi.herokuapp.com`,
   operations: {
     reconnect: true,
     connectionParams: () => ({
