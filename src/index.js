@@ -35,6 +35,7 @@ const context = (req) => {
 const typeDefs = require('./schema');
 
 const resolvers = require('./resolvers');
+const { createServer } = require('http');
 
 const server = new ApolloServer({
   typeDefs,
@@ -67,4 +68,12 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => console.log(`🚀 Server ready on port ${PORT} `));
+const httpServer = createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(PORT, () => {
+  console.log(`🚀 Server ready on port ${PORT}${server.graphqlPath}`);
+  console.log(
+    `🚀 Subscriptions ready on port ${PORT}${server.subscriptionsPath}`
+  );
+});
