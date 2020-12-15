@@ -20,6 +20,7 @@ const wsLink = new WebSocketLink({
   uri: `wss://discorgi.herokuapp.com/graphql`,
   operations: {
     reconnect: true,
+    timeout: 30000,
     connectionParams: () => ({
       authToken: sessionStorage.getItem('token'),
     }),
