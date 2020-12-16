@@ -18,9 +18,7 @@ const Signup = () => {
     },
   });
 
-  if (loading) return <p>Loading</p>;
-
-  return <SignupForm signupUser={signupUser} error={error} />;
+  return <SignupForm signupUser={signupUser} error={error} loading={loading}/>;
 };
 
 export default Signup;

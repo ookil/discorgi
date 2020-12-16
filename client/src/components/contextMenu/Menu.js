@@ -70,17 +70,34 @@ const Menu = memo(({ currentItem }) => {
           <div className='separator'></div>
         </li>
         {data.server.role === 'ADMIN' ? (
-          <li
-            className='list-item delete'
-            onClick={() => {
-              dispatch({
-                type: DELETE_CHANNEL,
-                payload: { openModal: DELETE_CHANNEL, channelId: currentItem },
-              });
-            }}
-          >
-            Delete Channel
-          </li>
+          currentItem !== 'WRAPPER' ? (
+            <li
+              className='list-item delete'
+              onClick={() => {
+                dispatch({
+                  type: DELETE_CHANNEL,
+                  payload: {
+                    openModal: DELETE_CHANNEL,
+                    channelId: currentItem,
+                  },
+                });
+              }}
+            >
+              Delete Channel
+            </li>
+          ) : (
+            <li
+              className='list-item delete'
+              onClick={() => {
+                dispatch({
+                  type: OPEN_MODAL,
+                  payload: DELETE_SERVER,
+                });
+              }}
+            >
+              Delete Server
+            </li>
+          )
         ) : (
           <li
             className='list-item delete'

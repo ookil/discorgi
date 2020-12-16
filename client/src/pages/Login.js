@@ -22,9 +22,8 @@ const Login = () => {
     },
   });
 
-  if (loading) return <p>Loading</p>;
 
-  return <LoginForm loginUser={loginUser} error={error} />;
+  return <LoginForm loginUser={loginUser} error={error} loading={loading} />;
 };
 
 export default Login;

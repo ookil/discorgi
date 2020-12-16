@@ -18,7 +18,7 @@ const JoinServerForm = ({ setState, setIsOpen }) => {
   const [input, setInput] = useState('');
   const history = useHistory();
 
-  const [joinServer, { error, loading }] = useMutation(JOIN_SERVER, {
+  const [joinServer, { error }] = useMutation(JOIN_SERVER, {
     update(cache, { data: { joinServer } }) {
       const cacheId = cache.identify(joinServer);
       cache.modify({
@@ -54,16 +54,9 @@ const JoinServerForm = ({ setState, setIsOpen }) => {
 
       <div>
         <form id='join-server' onSubmit={handleSubmit}>
-          <label
-            htmlFor='invite-link'
-            className={error  ? 'error' : ''}
-          >
+          <label htmlFor='invite-link' className={error ? 'error' : ''}>
             INVITE LINK
-            {error ? (
-              <span> - {error.message}</span>
-            ) : (
-              <span> * </span>
-            )}
+            {error ? <span> - {error.message}</span> : <span> * </span>}
           </label>
           <br />
           <input

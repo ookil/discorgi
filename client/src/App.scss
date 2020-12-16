@@ -343,15 +343,7 @@ input {
 .delete-server-content {
   @include modal-content;
 
-  .warning {
-    background-color: #e19517;
-    border-color: #e19517;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
+  
 
   strong {
     font-weight: 600;
@@ -369,25 +361,38 @@ input {
     color: $text-normal;
   }
 
-  .button-delete-server {
-    margin-left: 20px;
-    cursor: pointer;
-    color: $text-white;
-    padding: 10px;
-    border: none;
-    background-color: #f04747;
-    border-radius: 4px;
-
-    &:hover {
-      background-color: #d84040;
-    }
-  }
+  
 
   .alert {
     color: #f04747;
     margin-top: 8px;
     font-size: 12px;
   }
+}
+
+.button-delete-server {
+  margin-left: 20px;
+  cursor: pointer;
+  color: $text-white;
+  padding: 10px;
+  border: none;
+  background-color: #f04747;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #d84040;
+  }
+}
+
+.warning {
+  background-color: #e19517;
+  border-color: #e19517;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-weight: 400;
+  color: $text-normal;
 }
 
 .button-copy {
@@ -606,6 +611,15 @@ input {
     }
   }
 }
+
+.delete-channel {
+  .modal-title {
+    color: $text-normal;
+    margin-bottom: 0.8em;
+
+  }
+}
+
 /* MAIN CONTAINER */
 
 .main-container {

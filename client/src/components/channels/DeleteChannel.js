@@ -49,19 +49,21 @@ const DeleteChannel = () => {
       contentLabel='Delete Channel'
       style={customStyles}
     >
-      <div>
-        <div>
-          <p className='close-button light' onClick={handleClose}>
-            &#10006;
-          </p>
-          <h3 className='modal-title'>DELETE CHANNEL</h3>
-        </div>
-
-        <div>
-          <p>
-            Are you sure you want to delete <strong>NAME</strong>? This action
-            cannot be undone.
-          </p>
+      <div className='delete-channel'>
+        <div style={{padding: '20px'}}>
+          <div>
+            <p className='close-button light' onClick={handleClose}>
+              &#10006;
+            </p>
+            <h3 className='modal-title'>DELETE CHANNEL</h3>
+          </div>
+  
+          <div className='warning'>
+            <p>
+              Are you sure you want to delete <strong>NAME</strong>? This action
+              cannot be undone.
+            </p>
+          </div>
         </div>
         <div className='buttons-wrapper'>
           <button className='button-cancel' onClick={handleClose}>

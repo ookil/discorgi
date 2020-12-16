@@ -2,9 +2,9 @@
 
 ![](discorgi.gif)
 
-[Live Demo]()
+[Live Demo](https://discorgi.herokuapp.com/)
 
-This project was made entirely by me in order to experiment with GraphQL and Apollo. This is not ment to be an exact replica of Discord but I tried to implement as many core features as I was able to.
+This project was made entirely by me in order to experiment with GraphQL and Apollo. This is not ment to be an exact replica of Discord but I tried to implement as many core features as I was able to.discr
 
 If you would like to find any errors or missing features don't hesitate to point them out or contribute.
 

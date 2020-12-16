@@ -39,7 +39,7 @@ const ChatDisplay = () => {
 
   const { channelId } = useParams();
 
-  const { subscribeToMore, data, loading, error, fetchMore } = useQuery(
+  const { subscribeToMore, data, loading, fetchMore } = useQuery(
     GET_CHANNEL_MESSAGES,
     {
       variables: {
@@ -133,6 +133,8 @@ const ChatDisplay = () => {
                   />
                 );
               }
+
+              return null
             })}
         </div>
       )}

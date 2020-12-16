@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const LoginForm = ({ signupUser, error }) => {
+const LoginForm = ({ signupUser, error, loading }) => {
   const [user, setUser] = useState({ name: '', password: '' });
   const [errors, setErrors] = useState([]);
 
@@ -84,7 +84,7 @@ const LoginForm = ({ signupUser, error }) => {
             </div>
 
             <button type='submit' className='auth-button'>
-              Sign up
+              {loading ? 'Loading...' : 'Sign up'}
             </button>
 
             <Link to='/login'>Alredy have an account?</Link>

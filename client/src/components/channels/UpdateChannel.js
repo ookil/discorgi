@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import ServerContext from '../../context/serverContext';
 import { UPDATE_CHANNEL, OPEN_MODAL } from '../../const';
 import { useMutation, gql } from '@apollo/client';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const UPDATE_CHANNEL_MUTATION = gql`
   mutation UpdateChannel($updateChannelData: UpdateChannelInput!) {
