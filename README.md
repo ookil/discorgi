@@ -8,6 +8,8 @@ This project was made entirely by me in order to experiment with GraphQL and Apo
 
 If you would like to find any errors or missing features don't hesitate to point them out or contribute.
 
+Yes, it's not responsive and was designed mostly for desktops.
+
 ## Build with
 
 - [React](https://reactjs.org/)
