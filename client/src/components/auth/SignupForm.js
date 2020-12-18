@@ -80,6 +80,8 @@ const LoginForm = ({ signupUser, error, loading }) => {
                 name='password'
                 value={user.password}
                 onChange={handleChange}
+                min-minLength='3'
+                maxLength='16'
               />
             </div>
 
