@@ -66,6 +66,7 @@ const ResizableTextarea = ({ createNewMessage, channelName }) => {
         className='textarea'
         onChange={handleChange}
         autoFocus
+        maxLength='1000'
       />
     </form>
   );

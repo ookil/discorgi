@@ -59,6 +59,8 @@ const LoginForm = ({ signupUser, error, loading }) => {
                 name='name'
                 value={user.name}
                 onChange={handleChange}
+                minLength='6'
+                maxLength='16'
               />
             </div>
             <div
@@ -80,7 +82,7 @@ const LoginForm = ({ signupUser, error, loading }) => {
                 name='password'
                 value={user.password}
                 onChange={handleChange}
-                min-minLength='3'
+                minLength='3'
                 maxLength='16'
               />
             </div>
@@ -89,7 +91,7 @@ const LoginForm = ({ signupUser, error, loading }) => {
               {loading ? 'Loading...' : 'Sign up'}
             </button>
 
-            <Link to='/login'>Alredy have an account?</Link>
+            <Link to='/login'>Already have an account?</Link>
           </form>
         </div>
       </div>
