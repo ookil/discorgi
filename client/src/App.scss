@@ -978,6 +978,8 @@ input {
   color: $text-normal;
   line-height: 1.475rem;
   white-space: pre-wrap;
+  overflow: hidden;
+  padding-right: 5px;
 }
 
 .context-menu {
