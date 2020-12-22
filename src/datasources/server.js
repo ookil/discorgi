@@ -452,8 +452,7 @@ class ServerAPI extends DataSource {
       },
     });
 
-    // newest should be first
-    allMessages.reverse();
+    allMessages.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
     const messages = paginateResults({ after, pageSize, results: allMessages });
 
