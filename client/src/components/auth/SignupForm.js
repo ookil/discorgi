@@ -39,6 +39,10 @@ const LoginForm = ({ signupUser, error, loading }) => {
       <div className='auth-form'>
         <div className='header'>
           <h2>Create an account</h2>
+          <p className='disclaimer'>
+            Disclaimer: This is not mobile friendly, please consider switching
+            to desktop for better experience
+          </p>
         </div>
         <div>
           <form id='login' onSubmit={handleSubmit}>

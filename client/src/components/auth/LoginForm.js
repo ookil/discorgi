@@ -40,6 +40,10 @@ const LoginForm = ({ loginUser, error, loading }) => {
         <div className='header'>
           <h2>Welcome back!</h2>
           <p>We're so excited to see you again!</p>
+          <p className='disclaimer'>
+            Disclaimer: This is not mobile friendly, please consider switching
+            to desktop for better experience
+          </p>
         </div>
         <div>
           <form id='login' onSubmit={handleSubmit}>

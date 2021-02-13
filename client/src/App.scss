@@ -28,6 +28,16 @@ $background-modifier-active: rgba(79, 84, 92, 0.24);
   display: flex;
 }
 
+.disclaimer {
+  margin-top: 5px;
+  font-size: 12px;
+  font-style: italic;
+
+  @media screen and (min-width: 740px) {
+    display: none;
+  }
+}
+
 .server-list {
   background: $background-tetriary;
   width: 72px;
